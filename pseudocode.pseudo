@@ -1,0 +1,95 @@
+Functions:
+    Global variables, arrays:
+    1. Create users Array: 
+        1. INITIALIZE users = [];
+        2. INITIALIZE userObj = {
+                                    name: name, 
+                                    surname: surname,
+                                    email: email,
+                                    password: password,
+                                    cell: cell,
+                                    lists: []
+                                }
+        3. PUSH userObj to users.
+        4. INITIALIZE loginStatus = true;
+
+    2. FUNCTION AddUser(inputs: name, surname, email, password, cell):
+        1. FILTER users, SET filteredUser = user.filter((user) => user.name === name);
+        2. IF filteredUser.length > 0:
+                return;
+            ELSE: 
+                PUSH to users;
+
+
+    3. FUNCTION AddShoppingList (inputs: List Name, Quantity, Optional notes, Category, Image):
+        1. INITIALIZE shoppingListObj = { ListName, Quantity, Optional notes, Category, Image, Items:[]};
+        2. PUSH shoppingListObj to lists array in userObj, userObj.lists;
+
+
+
+    4. FUNCTION UpdateShoppingList (inputs: name, updateShoppingListInfo object):
+        1. FILTER users, SET filteredUser = user.filter((user) => user.name === name);
+        2. FILTER shopping lists, SET filteredShoppingList = filteredUser.lists.filter((list) => list.name === updateShoppingListInfo.name);
+        3. SET updateShoppingListInfo to filteredShoppingList;
+        4. SET users with, new updated filteredShoppingList;
+
+    5. FUNCTION DeleteShoppingList(inputs: name, shopping list name):
+        1. FILTER users, SET filteredUser = user.filter((user) => user.name === name);
+        2. FILTER lists, SET filteredLists = filteredUser.lists.filter((list) => list.name !== name);
+        3. SET filteredUser.lists = filteredLists;
+
+    6. FUNCTION AddItem (inputs: Item Name, Quantity, Optional notes, Category, Image):
+        1. INITIALIZE itemObj = { Item Name, Quantity, Optional notes, Category, Image};
+        2. PUSH itemObj to items array in shoppingListObj, shoppingListObj.items;
+
+
+
+    7. FUNCTION UpdateItem (inputs: name, updateItemInfo object):
+        1. FILTER users, SET filteredUser = user.filter((user) => user.name === name);
+        2. FILTER shopping Obj items, SET filteredItem = shoppingListObj.items.filter((item) => item.name ===  updateItemInfo.name);
+        3. SET  updateItemInfo to filteredItem;
+        4. SET users with, new updated filteredItem;
+
+    8. FUNCTION DeleteItem (inputs: name, item name):
+        1. FILTER users, SET filteredUser = user.filter((user) => user.name === name);
+        2. FILTER items, SET filteredItems = shoppingListObj.items.filter((item) => item.name !== item name);
+        3. SET shoppingListObj.items = filteredItems;
+            
+        
+
+    9. FUNCTION FilterItems (inputs: items):
+        1. FILTER item information from items based on field / rule, filteredItemInformation => field;
+
+    10. FUNCTION UserUpdate (inputs: updateObj):
+        1. Create userCopy;
+        2. IF (updateObj.username): 
+            SET userCopy.username = updateObj.username;
+        3. IF (updateObj.password): 
+            SET userCopy.password = updateObj.password; 
+
+    11. FUNCTION handleLogOut():
+        1. SET loginStatus = false;
+
+
+ 
+   Components:
+    1. Profile(name, surname, email, password, cell):
+        1. Create divs to hold all prop information
+
+    2. AddShoppingList():
+        1. Create inputs field to get shopping list  information;
+        2. Create button to submit shopping list information from field;
+
+    3. DisplayShoppingLists(inputs: lists Array):
+        1. Map through shopping lists and display each shopping list on page;
+
+    4. SearchItems(inputs: items, field):
+        1. Create search bar and button to allow search;
+        2. Filter items based on field.
+
+    5. HomePage():
+    6. RegistrationPage():
+    7. LoginPage():
+    8. LandingPage():
+    9. ShoppingListCard():
+    10. Item():

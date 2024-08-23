@@ -1,0 +1,86 @@
+#React Shopping list App
+
+Problem: Create an app that allows users to add shopping lists and items, using JSON-server.
+    It should have 4 main pages:
+    1. Login Page
+    2. Registration Page
+    3. Home Page
+    4. Profile Page
+
+
+Requirements: 
+    Registration information:
+    1. Name.
+    2. Surname.
+    3. Email.
+    4. Password.
+    5. Cell Number
+    6. Profile picture.
+    ** Must encrypt login credentials after registration.
+    ** Must use redux for state management.
+
+    User interface:
+    1. Allow users to view, add, update and delete their shopping lists and list items.
+    2. The user should be able to view and update their details - Profile Page.
+    3. Use protected routing - authentication.
+
+    Shopping item inputs:
+    1. Name
+    2. Quantity
+    3. Optional notes.
+    4. Category
+    5. Images
+
+    ** Must be able to add more than one shopping list.
+    ** Must be able to share their shopping lists with others
+
+
+    Features:
+    User must be able to:
+    1. Add new shopping list and item
+    2. View added shopping list and item
+    3. Update added shopping list and item
+    4. Delete shopping list and item
+    5. Filter shopping item by name of item, category and date added.
+        ** Must be able to search and sort using URL.
+
+    ** USE GET, POST, DELETE, PATCH/PUT with the JSON Server to manage user's shopping lists.
+    
+Solution: 
+    1. Create Registration Page to gather user login credentials.
+    2. Create an array of objects to store user login information along with a shopping lists array for each user.
+    3. Create Login Page to access Home Page using registered username and password, after validation.
+    4. Use username and other user info to render Profile Page.
+    5. Create Shopping Lists Page to show all shopping lists.
+    6. Create page for each individual shopping list with all the items.
+
+
+    Functions:
+    1. AddUser - function to add user.
+    2. UserUpdate - function to update user information.
+
+    3. AddShoppingList - function to add shopping list.
+    5. UpdateShoppingList - function to update shopping list information.
+    6. DeleteShoppingList - function to delete shoppingList.
+
+    7. AddItem - function to add shopping list item.
+    8. UpdateItem - function to update shopping list item information.
+    9. DeleteItem - function to delete shopping list item.
+    10. FilterItems - function to filter items.
+
+    Components:
+    1. HomePage - component with home page information.
+    2. RegistrationPage - component to get user information.
+    3. LoginPage - component to log in.
+    4. LandingPage - component with landing page information.
+
+
+
+    4. Profile - component with user profile information.
+    5. AddShoppingList - component to enter shopping list information.
+    6. DisplayShoppingLists - displays user shopping lists on page.
+    7. SearchItems - used to filter items by name, category and date added.
+    8. ShoppingListCard - component to show individual shopping list card.
+    9. Item - component to show item.
+
+   
