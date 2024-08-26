@@ -1,16 +1,14 @@
 import { useState } from "react";
-import { useOutletContext } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
-import Backarrow from "./Backarrow";
 
 import { useDispatch, useSelector } from "react-redux";
-import { fetchDeleteList, fetchUpdateList } from "../app/usersSlice";
-import { toggleListEdit } from "../app/usersSlice";
+import { fetchUpdateItem } from "../app/usersSlice";
+import { toggleItemEdit } from "../app/usersSlice";
 
-function ListCard({ list, handleNavigateList, listName, index }) {
+function Item({ item, listName, itemName, index }) {
   const user = useSelector((state) => state.users.currentUser);
+
   const [obj, setObj] = useState({
-    listName: "",
+    itemName: "",
     quantity: "",
     category: "",
     notes: "",
@@ -18,11 +16,11 @@ function ListCard({ list, handleNavigateList, listName, index }) {
     edit: false,
   });
 
-  // create handleDelete function for ListCard
+  // create handleDelete function for itemCard
   const dispatch = useDispatch();
 
-  function handleDeleteList(name) {
-    dispatch(fetchDeleteList(name));
+  function handleDeleteItem(name) {
+    //dispatch(fetchDeleteItem(name));
   }
 
   function handleChange(e) {
@@ -31,48 +29,57 @@ function ListCard({ list, handleNavigateList, listName, index }) {
     setObj((prev) => ({ ...prev, [name]: value }));
   }
 
-  function handleUpdateListEdit(name) {
-    dispatch(toggleListEdit(name));
+  function handleUpdateItemEdit(list, item) {
+    console.log({ list, item });
+    dispatch(toggleItemEdit({ listName: list, itemName: item }));
   }
 
-  function handleUpdateList(name, obj) {
-    let newListObj = {
-      listName: "",
+  function handleUpdateitem(name, itemN, obj) {
+    let newItemObj = {
+      itemName: "",
       quantity: "",
       category: "",
       notes: "",
-      items: [],
+
       edit: false,
     };
-    let [list] = user.lists.filter((list) => list.listName === name);
+    let userCopy = { ...user };
+    //get list
+    const [filteredList] = userCopy.lists.filter(
+      (list) => list.listName === listName
+    );
+    const [item] = filteredList.items.filter((item) => item.itemName === itemN);
+    console.log("ITEMM", item);
+
     //*****refactor to switch statement*****
 
-    newListObj.listName = obj.listName === "" ? list.listName : obj.listName;
-    newListObj.quantity = obj.quantity === "" ? list.quantity : obj.quantity;
-    newListObj.category = obj.category === "" ? list.category : obj.category;
-    newListObj.notes = obj.notes === "" ? list.notes : obj.notes;
-    newListObj.items = list.items;
+    newItemObj.itemName = obj.itemName === "" ? item.itemName : obj.itemName;
+    newItemObj.quantity = obj.quantity === "" ? item.quantity : obj.quantity;
+    newItemObj.category = obj.category === "" ? item.category : obj.category;
+    newItemObj.notes = obj.notes === "" ? item.notes : obj.notes;
 
-    // lists.edit = true;
+    // items.edit = true;
 
-    ////dispatch the new list to the fetchAddlist function
-    dispatch(fetchUpdateList({ name: name, item: newListObj }));
+    ////dispatch the new item to the fetchAdditem function
+    dispatch(
+      fetchUpdateItem({ listName: name, itemName: itemN, item: newItemObj })
+    );
   }
 
   return (
-    <div className="ListCard">
-      <div className="list-content">
-        {list.edit === true ? (
+    <div className="Item">
+      <div className="item-content">
+        {item.edit === true ? (
           <div className="update-form">
             <div className="name">
-              <label htmlFor="list-name">
-                List Name
+              <label htmlFor="item-name">
+                Item Name
                 <input
                   type="text"
-                  id="list-name"
-                  name="listName"
+                  id="item-name"
+                  name="itemName"
                   onChange={(e) => handleChange(e)}
-                  value={obj.listName}
+                  value={obj.itemName}
                   required
                 />
               </label>
@@ -117,23 +124,18 @@ function ListCard({ list, handleNavigateList, listName, index }) {
             </div>
           </div>
         ) : (
-          <div
-            className="list-info"
-            onClick={() => handleNavigateList(listName, index)}
-          >
-            {JSON.stringify(list)}
-          </div>
+          <div className="item-info">{JSON.stringify(item)}</div>
         )}
-        <div className="delete-update">
+        {/*<div className="delete-update">
           <button
             className="update"
             onClick={() => {
-              list.edit
-                ? handleUpdateList(list.listName, obj)
-                : handleUpdateListEdit(list.listName);
+              item.edit
+                ? handleUpdateItem(item.itemName, obj)
+                : handleUpdateItemEdit(item.itemName);
             }}
           >
-            {list.edit ? (
+            {item.edit ? (
               <div className="update-btn">Update </div>
             ) : (
               <div>edit</div>
@@ -141,13 +143,20 @@ function ListCard({ list, handleNavigateList, listName, index }) {
           </button>
           <button
             className="delete"
-            onClick={() => handleDeleteList(list.listName)}
+            onClick={() => handleDeleteItem(item.itemName)}
           >
             Delete
           </button>
-        </div>
+        </div>*/}
+        <button onClick={() => handleUpdateItemEdit(listName, itemName)}>
+          upda
+        </button>
+        <button onClick={() => handleUpdateitem(listName, itemName, obj)}>
+          sub
+        </button>
+        <button onClick={() => handleDeleteItem(itemName)}>delete</button>
       </div>
     </div>
   );
 }
-export default ListCard;
+export default Item;

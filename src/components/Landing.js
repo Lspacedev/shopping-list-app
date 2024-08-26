@@ -5,7 +5,7 @@ function Landing() {
     <div className="landing">
       <nav>
         <div className="logo-land">
-          Home <span>Recipes</span>
+          Grocery <span>List</span>
         </div>
         <div className="login-register">
           <Link to="login">
@@ -18,9 +18,9 @@ function Landing() {
       </nav>
       <div className="landing-content">
         <div className="landing-info">
-          <div className="landing-title">Keep track of your recipes</div>
+          <div className="landing-title">Keep track of your shopping lists</div>
           <div className="landing-subtitle">
-            A simple way to manage your favourite recipes.
+            Managing your groceries with shopping lists.
           </div>
           <Link to="/registration">
             <button className="register-btn2">Register Now</button>

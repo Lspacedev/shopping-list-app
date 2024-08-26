@@ -20,8 +20,6 @@ import { fetchAllUsers } from "./app/usersSlice";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 
-
-
 function App() {
   const [users, setUsers] = useState([]);
   const [currentUser, setCurrentUser] = useLocalStorage("current", {});
@@ -30,8 +28,7 @@ function App() {
   const [submittedSearch, setsubmittedSearch] = useState("");
 
   const [searchResults, setSearchResults] = useState([]);
-  const dispatch = useDispatch()
-
+  const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(fetchAllUsers());
@@ -39,8 +36,6 @@ function App() {
 
   const userss = useSelector((state) => state.users.usersArr);
   let loginStatus = useSelector((state) => state.users.loginStatus);
-
-  console.log("thunking good", userss)
 
   /*useEffect(() => {
     const usersCopy = users.slice(0);
@@ -53,7 +48,7 @@ function App() {
 
     setUsers(usersCopy);
   }, [currentUser]);*/
-/*
+  /*
   useEffect(() => {
     if (submittedSearch.length > 0) {
       let filteredLists = currentUser.lists.filter(
@@ -96,7 +91,7 @@ function App() {
       setRegistrationStatus(true);
     }
   }
-/*
+  /*
   function handleLoginSubmit(obj) {
 
     const findUser = users.filter((user) => user.name === obj.name);
@@ -115,7 +110,7 @@ function App() {
       alert("user does not exist");
     }
   }*/
-/*
+  /*
   async function handleUserUpdate(obj) {
     const userCopy = { ...currentUser };
 
@@ -195,7 +190,7 @@ function App() {
   }
 
   /***  USER FUNCTIONS TO: ADD, DELETE, UPDATE listS ****/
-/*
+  /*
   function handleAddList(obj) {
     //find list
     const filteredList = currentUser.lists.filter(
@@ -322,22 +317,14 @@ function App() {
             path="login"
             element={
               <Login
-                //handleLoginSubmit={handleLoginSubmit}
-                //loginStatus={loginStatus}
+              //handleLoginSubmit={handleLoginSubmit}
+              //loginStatus={loginStatus}
               />
             }
           />
-          
-          <Route element={<ProtectedRoutes loginStatus={loginStatus} />}>
-            <Route
-              path="home"
-              element={
-                <Home
-              
-                />
-              }
-            >
 
+          <Route element={<ProtectedRoutes loginStatus={loginStatus} />}>
+            <Route path="home" element={<Home />}>
               {/*<Route
                 index
                 element={
@@ -347,28 +334,20 @@ function App() {
                   />
                 }
               />*/}
-              <Route
-                path="lists"
-                element={
-                  <DisplayLists
-                    searchResults={[]}
-                  />
-                }
-              >
+              <Route path="lists" element={<DisplayLists searchResults={[]} />}>
                 <Route
                   path=":list_name"
                   element={
                     <List
-                      //lists={currentUser.lists || []}
-                      //handleUpdateList={handleUpdateList}
-                      //handleListResubmit={handleListResubmit}
-                      //handleDeleteList={handleDeleteList}
-                      
+                    //lists={currentUser.lists || []}
+                    //handleUpdateList={handleUpdateList}
+                    //handleListResubmit={handleListResubmit}
+                    //handleDeleteList={handleDeleteList}
                     />
                   }
                 />
               </Route>
-             {/* <Route
+              {/* <Route
                 path="profile"
                 element={
                   <Profile

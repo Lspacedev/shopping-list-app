@@ -15,7 +15,7 @@ function Sidebar() {
   return (
     <div className="Sidebar">
       <h3 className="logo">
-        Home<span>Recipes</span>
+        Grocery<span>List</span>
       </h3>
       <div className="sidebar-links">
         <div onClick={handleNavigateHome}>
@@ -25,11 +25,11 @@ function Sidebar() {
 
         <div onClick={handleNavigateRecipes}>
           <CiViewList />
-          <p>Recipes</p>
+          <p>Lists</p>
         </div>
       </div>
 
-      <div className="logout" >
+      <div className="logout">
         <CiLogout />
         Logout
       </div>

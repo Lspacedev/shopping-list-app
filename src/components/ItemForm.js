@@ -1,14 +1,13 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchAddList } from "../app/usersSlice";
+import { fetchAddItem } from "../app/usersSlice";
 
-function Form({ toggleClicked }) {
+function ItemForm({ listName, toggleClicked }) {
   const [obj, setObj] = useState({
-    listName: "",
+    itemName: "",
     quantity: "",
     category: "",
     notes: "",
-    items: [],
     edit: false,
   });
   const dispatch = useDispatch();
@@ -23,18 +22,24 @@ function Form({ toggleClicked }) {
   function handleSubmit(e) {
     e.preventDefault();
 
-    //check if list exists in the users lists array
+    //check if item exists in the users items array
     let userCopy = { ...user };
-    const filteredList = userCopy.lists.filter(
-      (list) => list.listName === obj.listName
+    //get list
+    const [filteredList] = userCopy.lists.filter(
+      (list) => list.listName === listName
+    );
+    const filteredItem = filteredList.items.filter(
+      (item) => item.itemName === obj.itemName
     );
 
-    //if list is not found, add the list to the users lists
-    if (filteredList.length === 0) {
-      let newLists = [...userCopy.lists, obj];
+    //if item is not found, add the item to the users items
+    if (filteredItem.length === 0) {
+      let newitems = [...filteredList.items, obj];
 
-      //dispatch the new list to the fetchAddlist function
-      dispatch(fetchAddList({ id: userCopy.id, lists: newLists }));
+      //dispatch the new item to the fetchAdditem function
+      dispatch(
+        fetchAddItem({ listName: filteredList.listName, items: newitems })
+      );
     }
     toggleClicked();
   }
@@ -47,21 +52,21 @@ function Form({ toggleClicked }) {
     <div className="Form">
       <div className="form-div">
         <div className="form-title-close">
-          <h3>Enter List Information</h3>
+          <h3>Enter Item Information</h3>
           <div className="form-close" onClick={handleFormClose}>
             x
           </div>
         </div>
         <form>
           <div className="name">
-            <label htmlFor="list-name">
-              List Name
+            <label htmlFor="item-name">
+              Item Name
               <input
                 type="text"
-                id="list-name"
-                name="listName"
+                id="item-name"
+                name="itemName"
                 onChange={(e) => handleChange(e)}
-                value={obj.listName}
+                value={obj.itemName}
                 required
               />
             </label>
@@ -117,4 +122,4 @@ function Form({ toggleClicked }) {
   );
 }
 
-export default Form;
+export default ItemForm;

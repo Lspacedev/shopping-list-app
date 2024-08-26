@@ -7,50 +7,7 @@
       "email": "",
       "cell": "",
       "password": "$2a$10$lLnxHXzvyKtG1p/s44w2eOqwmhCm38n4uz7mIX1aUGKzvaxfjf5MC",
-      "lists": [
-        {
-          "listName": "earth",
-          "quantity": "",
-          "category": "",
-          "notes": "",
-          "edit": false
-        },
-        {
-          "listName": "wind",
-          "quantity": "",
-          "category": "",
-          "notes": "",
-          "edit": false
-        },
-        {
-          "listName": "fire",
-          "quantity": "",
-          "category": "",
-          "notes": "",
-          "edit": false
-        },
-        {
-          "listName": "semptember",
-          "quantity": "",
-          "category": "",
-          "notes": "",
-          "edit": false
-        },
-        {
-          "listName": "bbbnnn",
-          "quantity": "",
-          "category": "",
-          "notes": "",
-          "edit": false
-        },
-        {
-          "listName": "sshshd",
-          "quantity": "",
-          "category": "",
-          "notes": "",
-          "edit": false
-        }
-      ]
+      "lists": []
     }
   ]
 }
