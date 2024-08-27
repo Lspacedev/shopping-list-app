@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import bcrypt from "bcryptjs-react";
 import { useEffect } from "react";
 
-function Profile() {
+function Profile({ currentUser }) {
   const [userUpdate, setUserUpdate] = useState({
     name: "",
     surname: "",
@@ -21,7 +21,8 @@ function Profile() {
   const [update, setUpdate] = useState(false);
   const dispatch = useDispatch();
 
-  //const user = useSelector((state) => state.users.currentUser);
+  //const user = currentUser;
+  // console.log(user, "kj");
   const users = useSelector((state) => state.users.usersArr);
   const user = useSelector((state) => state.users.currentUser);
 

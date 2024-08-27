@@ -35,16 +35,20 @@ function App() {
   /*let logStat = useSelector((state) => state.users.loginStatus);
   let loginStatus = JSON.parse(localStorage.getItem("loginStatus")) || logStat;
 
-  let loggedUserIdToken = useSelector((state) => state.users.loggedUserId);
-  let currentUser = useSelector((state) => state.users.currentUser);
+  //let loggedUserIdToken = useSelector((state) => state.users.loggedUserId);
+  let currUser = useSelector((state) => state.users.currentUser);
+  let currentUser = JSON.parse(localStorage.getItem("currentUser")) || currUser;
   //let loggedUserId =
-   // JSON.parse(localStorage.getItem("loggedUserId")) || loggedUserIdToken;
-  let user = JSON.parse(localStorage.getItem("loggedUserId")) ||;
+  // JSON.parse(localStorage.getItem("loggedUserId")) || loggedUserIdToken;
+  //let user = JSON.parse(localStorage.getItem("loggedUserId")) ||;
+  console.log(currUser);
   useEffect(() => {
     localStorage.setItem("loginStatus", JSON.stringify(loginStatus));
-    localStorage.setItem("loggedUserId", JSON.stringify(loggedUserId));
-    console.log(loginStatus, loggedUserId);
-  }, [loginStatus, loggedUserId]);*/
+    // localStorage.setItem("loggedUserId", JSON.stringify(loggedUserId));
+    localStorage.setItem("currentUser", JSON.stringify(currentUser));
+
+    //console.log(loginStatus, loggedUserId);
+  }, [loginStatus, currentUser]);*/
 
   //navigate({ pathname, search: `?${createSearchParams(params)}` });
   const submittedSearch = useSelector((state) => state.users.submittedSearch);
@@ -123,6 +127,7 @@ function App() {
                 path="profile"
                 element={
                   <Profile
+                  //currentUser={currentUser}
                   //loggedUserId={loggedUserId}
                   //handleUserUpdate={handleUserUpdate}
                   //handleDeleteAccount={handleDeleteAccount}
