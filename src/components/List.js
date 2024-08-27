@@ -45,7 +45,6 @@ function List({ handleUpdateList, handleListResubmit, handleDeleteList }) {
     edit = currList.edit;
   }
 
-  console.log("Lists in List.js", lists, currList);
   return (
     <div className="List">
       <Backarrow handleBackNavigate={handleBackNavigate} />

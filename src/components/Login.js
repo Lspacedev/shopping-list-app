@@ -19,7 +19,6 @@ function Login() {
       //on success redirect user
       navigation("/home");
     }
-    console.log(loginStatus)
   }, [navigation, loginStatus]);
 
   function handleNavigateRegister() {
@@ -34,7 +33,7 @@ function Login() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    dispatch(userLogin(loginDetails))
+    dispatch(userLogin(loginDetails));
   }
 
   return (

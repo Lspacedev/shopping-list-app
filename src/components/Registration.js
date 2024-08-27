@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { fetchAddUser } from "../app/usersSlice";
 import { useDispatch, useSelector } from "react-redux";
 
-
 function Registration({ count }) {
   const [userDetails, setUserDetails] = useState({
     id: (count + 1).toString(),
@@ -12,13 +11,14 @@ function Registration({ count }) {
     email: "",
     cell: "",
     password: "",
+    profilePic: "",
     lists: [],
   });
 
   const dispatch = useDispatch();
-  const registrationStatus = useSelector((state) => state.users.registrationStatus)
-
-
+  const registrationStatus = useSelector(
+    (state) => state.users.registrationStatus
+  );
 
   //navigation
   const navigation = useNavigate();
@@ -37,8 +37,17 @@ function Registration({ count }) {
     const { name, value } = e.target;
     setUserDetails((prev) => ({ ...prev, [name]: value }));
   }
-
-
+  function handleImageUpload(e) {
+    let input = document.getElementById("profile-pic");
+    var fReader = new FileReader();
+    fReader.readAsDataURL(input.files[0]);
+    fReader.onloadend = function (event) {
+      setUserDetails({
+        ...userDetails,
+        profilePic: event.target.result,
+      });
+    };
+  }
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -115,8 +124,17 @@ function Registration({ count }) {
               />
             </label>
           </div>
-
-     
+          <div className="profile-pic">
+            <label htmlFor="profile-pic">
+              Profile picture:
+              <input
+                type="file"
+                id="profile-pic"
+                name="pic"
+                onChange={(e) => handleImageUpload(e)}
+              />
+            </label>
+          </div>
 
           <input
             type="submit"

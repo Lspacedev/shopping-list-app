@@ -1,6 +1,7 @@
 import Searchbar from "./Searchbar";
 import { useNavigate } from "react-router-dom";
 import { IoIosSearch } from "react-icons/io";
+import { useSelector } from "react-redux";
 
 function Header({
   handleSearchSubmit,
@@ -8,6 +9,8 @@ function Header({
   searchInput,
   profilePic,
 }) {
+  const user = useSelector((state) => state.users.currentUser);
+  console.log({ user });
   //navigation
   const navigation = useNavigate();
   function handleHamBurgerMenu() {
@@ -24,9 +27,9 @@ function Header({
   return (
     <div className="Header">
       <Searchbar
-        handleSearchSubmit={handleSearchSubmit}
-        handleSearchChange={handleSearchChange}
-        searchInput={searchInput}
+      //handleSearchSubmit={handleSearchSubmit}
+      //handleSearchChange={handleSearchChange}
+      //searchInput={searchInput}
       />
       <div className="ham-profile">
         <div className="hamburger-menu" onClick={handleHamBurgerMenu}>
@@ -46,7 +49,7 @@ function Header({
             />
           </div>
           <div className="header-profile-pic" onClick={handleNavigateProfile}>
-            {profilePic && <img src={profilePic} alt="profile" />}
+            {user.profilePic && <img src={user.profilePic} alt="profile" />}
           </div>
         </div>
       </div>

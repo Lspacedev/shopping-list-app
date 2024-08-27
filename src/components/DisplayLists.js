@@ -5,14 +5,17 @@ import { useParams } from "react-router-dom";
 import ListCard from "./ListCard";
 import useLocalStorage from "./useLocalStorage";
 import { useDispatch, useSelector } from "react-redux";
-function DisplayLists({ searchResults }) {
+import Item from "./Item";
+
+function DisplayLists() {
   const [listInfo, setListInfo] = useLocalStorage("listObj", {
     name: "",
     index: null,
   });
 
   const lists = useSelector((state) => state.users.currentUser.lists);
-
+  const searchResults = useSelector((state) => state.users.searchResults);
+  console.log({ lists });
   const { list_name } = useParams();
 
   //navigation
@@ -38,18 +41,24 @@ function DisplayLists({ searchResults }) {
   useEffect(() => {
     navigation(`/home/lists/${listInfo.name}`);
   }, [listInfo]);
-
+  console.log({ searchResults });
   return (
     <div className="DisplayLists">
       {list_name !== "" && typeof list_name !== "undefined" ? (
         <Outlet context={{ listArr: lists[listInfo.index] }} />
       ) : (
         <div className="lists-div">
-          {
-            /*searchResults.length !== 0 ? (
-            searchResults.map((list, i) => (
+          {searchResults && searchResults.length !== 0 ? (
+            searchResults.map((item, i) => (
+              <div className="item" key={i}>
+                <div>{item.itemName}</div>
+              </div>
+            ))
+          ) : lists.length > 0 ? (
+            lists.map((list, i) => (
               <div className="item" key={i}>
                 <ListCard
+                  key={i}
                   list={list}
                   handleNavigateList={handleNavigateList}
                   listName={list.listName}
@@ -57,22 +66,9 @@ function DisplayLists({ searchResults }) {
                 />
               </div>
             ))
-          ) : */ lists.length > 0 ? (
-              lists.map((list, i) => (
-                <div className="item" key={i}>
-                  <ListCard
-                    key={i}
-                    list={list}
-                    handleNavigateList={handleNavigateList}
-                    listName={list.listName}
-                    index={i}
-                  />
-                </div>
-              ))
-            ) : (
-              <div>No lists adde</div>
-            )
-          }
+          ) : (
+            <div>No lists added</div>
+          )}
         </div>
       )}
     </div>

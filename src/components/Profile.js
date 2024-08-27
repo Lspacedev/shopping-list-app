@@ -1,27 +1,79 @@
 import { useState } from "react";
+import {
+  fetchAllUsers,
+  fetchUpdateUser,
+  fetchDeleteUser,
+  userLogout,
+} from "../app/usersSlice";
+import { useDispatch, useSelector } from "react-redux";
+import bcrypt from "bcryptjs-react";
+import { useEffect } from "react";
 
-function Profile({
-  name,
-  surname,
-  email,
-  username,
-  password,
-  profilePic,
-  handleUserUpdate,
-  handleDeleteAccount,
-}) {
+function Profile() {
   const [userUpdate, setUserUpdate] = useState({
     name: "",
     surname: "",
     email: "",
-    username: "",
+    cell: "",
     password: "",
     profilePic: "",
   });
   const [update, setUpdate] = useState(false);
+  const dispatch = useDispatch();
+
+  //const user = useSelector((state) => state.users.currentUser);
+  const users = useSelector((state) => state.users.usersArr);
+  const user = useSelector((state) => state.users.currentUser);
+
+  // const [user] = users.filter((user) => user.id == loggedUserId);
+
+  //  console.log(loggedUserId, users);
+
+  async function handleUpdateUser(obj) {
+    let newUserObj = {
+      name: "",
+      surname: "",
+      email: "",
+      cell: "",
+      password: "",
+      profilePic: "",
+    };
+    let userCopy = { ...user };
+
+    //*****refactor to switch statement*****
+    let encryptedPass;
+    if (obj.password) {
+      const salt = await bcrypt.genSalt();
+      encryptedPass = await bcrypt.hash(obj.password, salt);
+    }
+    newUserObj.name = obj.name === "" ? userCopy.name : obj.name;
+    newUserObj.surname = obj.surname === "" ? userCopy.surname : obj.surname;
+    newUserObj.email = obj.email === "" ? userCopy.email : obj.email;
+    newUserObj.cell = obj.cell === "" ? userCopy.cell : obj.cell;
+    newUserObj.password =
+      obj.password === "" ? userCopy.password : encryptedPass;
+    newUserObj.profilePic =
+      obj.profilePic === "" ? userCopy.profilePic : obj.profilePic;
+
+    // items.edit = true;
+
+    ////dispatch the new item to the fetchAdditem function
+    dispatch(fetchUpdateUser({ user: newUserObj }));
+  }
+
+  function handleDeleteAccount() {
+    let userCopy = { ...user };
+
+    alert("You are about to delete your account. Continue?");
+    dispatch(fetchDeleteUser(userCopy.id));
+    //logout
+    dispatch(userLogout());
+
+    //setLoginStatus(false);
+  }
 
   function handleSubmit(obj) {
-    handleUserUpdate(obj);
+    handleUpdateUser(obj);
     setUpdate(false);
   }
 
@@ -46,6 +98,7 @@ function Profile({
   return (
     <div className="Profile">
       <div className="contact-details">
+        {JSON.stringify(users)}
         <div className="profile-picture">
           {update ? (
             <div className="profile-pic2">
@@ -61,7 +114,7 @@ function Profile({
             </div>
           ) : (
             <div className="profile-pic">
-              {profilePic && <img src={profilePic} alt="profile" />}
+              {user.profilePic && <img src={user.profilePic} alt="profile" />}
             </div>
           )}
         </div>
@@ -80,7 +133,7 @@ function Profile({
                 />
               </div>
             ) : (
-              <div>{name}</div>
+              <div>{user.name}</div>
             )}
           </div>
 
@@ -97,7 +150,7 @@ function Profile({
                 />
               </div>
             ) : (
-              <div>{surname}</div>
+              <div>{user.surname}</div>
             )}
           </div>
 
@@ -114,13 +167,13 @@ function Profile({
                 />
               </div>
             ) : (
-              <div>{email}</div>
+              <div>{user.email}</div>
             )}
           </div>
 
           <div className="user-pass">
             <div className="user">
-              <h4>Username:</h4>
+              {/*<h4>Username:</h4>
               {update ? (
                 <div>
                   <div className="name">
@@ -135,7 +188,7 @@ function Profile({
                 </div>
               ) : (
                 <div>{username}</div>
-              )}
+              )}*/}
             </div>
 
             <div className="pass">
@@ -153,7 +206,7 @@ function Profile({
                   </div>
                 </div>
               ) : (
-                <div className="password-text">{password}</div>
+                <div className="password-text">{user.password}</div>
               )}
             </div>
           </div>

@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
-import { fetchUpdateItem } from "../app/usersSlice";
+import { fetchUpdateItem, fetchDeleteItem } from "../app/usersSlice";
 import { toggleItemEdit } from "../app/usersSlice";
 
 function Item({ item, listName, itemName, index }) {
@@ -20,7 +20,18 @@ function Item({ item, listName, itemName, index }) {
   const dispatch = useDispatch();
 
   function handleDeleteItem(name) {
-    //dispatch(fetchDeleteItem(name));
+    let userCopy = { ...user };
+    //get list
+    const [filteredList] = userCopy.lists.filter(
+      (list) => list.listName === listName
+    );
+    const filteredItems = filteredList.items.filter(
+      (item) => item.itemName !== name
+    );
+
+    dispatch(
+      fetchDeleteItem({ listName: filteredList.listName, items: filteredItems })
+    );
   }
 
   function handleChange(e) {
@@ -49,7 +60,6 @@ function Item({ item, listName, itemName, index }) {
       (list) => list.listName === listName
     );
     const [item] = filteredList.items.filter((item) => item.itemName === itemN);
-    console.log("ITEMM", item);
 
     //*****refactor to switch statement*****
 

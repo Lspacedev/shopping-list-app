@@ -1,6 +1,30 @@
 import { IoIosSearch } from "react-icons/io";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { submitSearch, setSearchResults } from "../app/usersSlice";
+import { useSearchParams } from "react-router-dom";
 
-function Searchbar({ handleSearchSubmit, handleSearchChange, searchInput }) {
+function Searchbar({}) {
+  const [searchInput, setSearchInput] = useState("");
+  const [searchParams, setSearchParams] = useSearchParams();
+  const searchTerm = searchParams.get("q") || "";
+  const dispatch = useDispatch();
+  function handleSearchChange(e) {
+    e.preventDefault();
+    if (e.target.value.length === 0) {
+      dispatch(submitSearch(""));
+      dispatch(setSearchResults([]));
+    }
+    setSearchInput(e.target.value);
+  }
+  function handleSearchSubmit() {
+    setSearchParams({ q: searchInput });
+
+    dispatch(submitSearch(searchInput));
+  }
+  useEffect(() => {
+    console.log(searchTerm, searchParams);
+  }, [searchTerm]);
   return (
     <div className="search-div">
       <div id="search-icon-div">

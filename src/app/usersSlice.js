@@ -26,27 +26,63 @@ export const fetchAddUser = createAsyncThunk(
     return data;
   }
 );
+
+export const fetchUpdateUser = createAsyncThunk(
+  "users/fetchUpdateUser",
+  async (obj, { getState }) => {
+    let user = obj.user;
+
+    let state = getState();
+    let current = state.users.currentUser;
+
+    const res = await fetch(`http://localhost:8000/users/${current.id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(user),
+    });
+    const data = await res.json();
+    return data;
+  }
+);
+
+export const fetchDeleteUser = createAsyncThunk(
+  "users/fetchDeleteUser",
+  async (id) => {
+    const res = fetch(`http://localhost:8000/users/${id}`, {
+      method: "DELETE",
+      headers: {
+        "content-Type": "application/json",
+      },
+    });
+
+    //update state
+    const data = await res.json();
+    return data;
+  }
+);
+
 export const userLogin = createAsyncThunk(
   "users/userLogin",
   async (obj, { getState }) => {
-    console.log("login", obj);
     let state = getState();
-    console.log("im state", state);
     const findUser = state.users.usersArr.filter(
       (user) => user.name === obj.name
     );
-    console.log("im state", state, "FOnd", findUser);
 
     if (findUser.length > 0) {
       let [user] = findUser;
-      let result = bcrypt.compare(obj.password, user.password).then((res) => {
-        if (res === true) {
-          console.log("tis true", user);
-          return user;
-        } else {
-          alert("invalid login password");
-        }
-      });
+      let result = await bcrypt
+        .compare(obj.password, user.password)
+        .then((res) => {
+          if (res === true) {
+            return user;
+          } else {
+            alert("invalid login password");
+          }
+        });
+
       return result;
     } else {
       alert("user does not exist");
@@ -123,6 +159,7 @@ export const fetchDeleteList = createAsyncThunk(
 
     const data = await res.json();
     return data;
+    //;
   }
 );
 
@@ -201,6 +238,39 @@ export const fetchUpdateItem = createAsyncThunk(
   }
 );
 
+export const fetchDeleteItem = createAsyncThunk(
+  "users/fetchDeleteItem",
+  async (obj, { getState }) => {
+    let listName = obj.listName;
+    let items = obj.items;
+
+    let state = getState();
+    let current = state.users.currentUser;
+    let copy = [...current.lists];
+
+    let lists = copy.map((item, index) => {
+      console.log(item, obj);
+      if (item.listName !== listName) {
+        // This isn't the item we care about - keep it as-is
+        return item;
+      }
+
+      // Otherwise, this is the one we want - return an updated value
+      return { ...item, items: items };
+    });
+
+    const res = await fetch(`http://localhost:8000/users/${current.id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ lists }),
+    });
+    const data = await res.json();
+    return data;
+  }
+);
+
 export const usersSlice = createSlice({
   name: "users",
   initialState: {
@@ -208,6 +278,9 @@ export const usersSlice = createSlice({
     currentUser: {},
     registrationStatus: false,
     loginStatus: false,
+    loggedUserId: "",
+    submittedSearch: "",
+    searchResults: [],
   },
   reducers: {
     toggleListEdit: (state, action) => {
@@ -232,6 +305,20 @@ export const usersSlice = createSlice({
         return { ...item, edit: true };
       });
       state.currentUser.lists[listIndex].items = newItems;
+    },
+    userLogout: (state, action) => {
+      state.loginStatus = false;
+      state.registrationStatus = false;
+      let id = state.currentUser.id;
+      const userIndex = state.usersArr.findIndex((user) => user.id === id);
+
+      state.usersArr.splice(userIndex, 1);
+    },
+    submitSearch: (state, action) => {
+      state.submittedSearch = action.payload;
+    },
+    setSearchResults: (state, action) => {
+      state.searchResults = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -260,14 +347,28 @@ export const usersSlice = createSlice({
       state.error = action.error.message
     })*/
 
+    builder.addCase(fetchUpdateUser.fulfilled, (state, action) => {
+      console.log("payload for updateLIst", action.payload);
+      state.currentUser = { ...action.payload };
+      const userIndex = state.usersArr.findIndex(
+        (user) => user.name === action.payload.id
+      );
+
+      state.usersArr[userIndex] = state.currentUser;
+    });
+    builder.addCase(fetchDeleteUser.fulfilled, (state, action) => {});
+    /*b
     /*builder.addCase(fetchAllUsers.pending, (state) => {
       state.isLoading = true
     })*/
     builder.addCase(userLogin.fulfilled, (state, action) => {
       console.log("payload", action.payload);
       if (action.payload) {
+        //let userCopy = action.payload;
+        //userCopy.loginStatus = true;
         state.loginStatus = true;
         state.currentUser = action.payload;
+        state.loggedUserId = action.payload.id;
       }
     });
     /*builder.addCase(fetchAllUsers.rejected, (state, action) => {
@@ -325,9 +426,24 @@ export const usersSlice = createSlice({
 
       state.usersArr[userIndex].lists = [...action.payload.lists];
     });
+    builder.addCase(fetchDeleteItem.fulfilled, (state, action) => {
+      console.log("payload for updateLIst", action.payload);
+      state.currentUser = { ...action.payload };
+      const userIndex = state.usersArr.findIndex(
+        (user) => user.name === action.payload.name
+      );
+
+      state.usersArr[userIndex].lists = [...action.payload.lists];
+    });
   },
 });
 // Action creators are generated for each case reducer function
-export const { toggleListEdit, toggleItemEdit } = usersSlice.actions;
+export const {
+  toggleListEdit,
+  toggleItemEdit,
+  userLogout,
+  submitSearch,
+  setSearchResults,
+} = usersSlice.actions;
 
 export default usersSlice.reducer;

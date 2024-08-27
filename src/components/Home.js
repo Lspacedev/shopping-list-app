@@ -2,20 +2,23 @@ import Sidebar from "./Sidebar";
 import { Outlet } from "react-router-dom";
 
 import Header from "./Header";
-import AddList from "./AddList"
+import AddList from "./AddList";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchAllUsers, setSearchResults } from "../app/usersSlice";
+import { useState, useEffect } from "react";
 
 function Home() {
   return (
     <div className="Home">
       <Sidebar />
       <div className="Main">
-        {/*<Header
-          handleSearchSubmit={handleSearchSubmit}
-          handleSearchChange={handleSearchChange}
-          searchInput={searchInput}
-        />*/}
+        <Header
+        //handleSearchSubmit={handleSearchSubmit}
+        //handleSearchChange={handleSearchChange}
+        //searchInput={searchInput}
+        />
         <div className="cat-add">
-          <AddList/>
+          <AddList />
         </div>
         <Outlet />
       </div>
