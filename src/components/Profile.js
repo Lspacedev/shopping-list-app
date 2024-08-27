@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import bcrypt from "bcryptjs-react";
 import { useEffect } from "react";
 
-function Profile({ currentUser }) {
+function Profile({ currentUser, loggedUserId }) {
   const [userUpdate, setUserUpdate] = useState({
     name: "",
     surname: "",
@@ -24,11 +24,15 @@ function Profile({ currentUser }) {
   //const user = currentUser;
   // console.log(user, "kj");
   const users = useSelector((state) => state.users.usersArr);
-  const user = useSelector((state) => state.users.currentUser);
+  const user = useSelector((state) => state.users.user);
+  const id = useSelector((state) => state.users.id);
+  const idCopy = id.slice();
+  const usersCopy = [...users];
+  const isLoading = useSelector((state) => state.users.isLoading);
 
-  // const [user] = users.filter((user) => user.id == loggedUserId);
+  //const user = usersCopy[Number(idCopy)-1];
 
-  //  console.log(loggedUserId, users);
+  console.log(id, users, user);
 
   async function handleUpdateUser(obj) {
     let newUserObj = {
@@ -98,8 +102,8 @@ function Profile({ currentUser }) {
 
   return (
     <div className="Profile">
+      {isLoading === true? <div>Loading...</div>:
       <div className="contact-details">
-        {JSON.stringify(users)}
         <div className="profile-picture">
           {update ? (
             <div className="profile-pic2">
@@ -115,7 +119,7 @@ function Profile({ currentUser }) {
             </div>
           ) : (
             <div className="profile-pic">
-              {user.profilePic && <img src={user.profilePic} alt="profile" />}
+              {user && <img src={user.profilePic} alt="profile" />}
             </div>
           )}
         </div>
@@ -134,7 +138,7 @@ function Profile({ currentUser }) {
                 />
               </div>
             ) : (
-              <div>{user.name}</div>
+              <div>{user&&user.name}</div>
             )}
           </div>
 
@@ -151,7 +155,7 @@ function Profile({ currentUser }) {
                 />
               </div>
             ) : (
-              <div>{user.surname}</div>
+              <div>{user&&user.surname}</div>
             )}
           </div>
 
@@ -168,7 +172,7 @@ function Profile({ currentUser }) {
                 />
               </div>
             ) : (
-              <div>{user.email}</div>
+              <div>{user&&user.email}</div>
             )}
           </div>
 
@@ -207,7 +211,7 @@ function Profile({ currentUser }) {
                   </div>
                 </div>
               ) : (
-                <div className="password-text">{user.password}</div>
+                <div className="password-text">{user&&user.password}</div>
               )}
             </div>
           </div>
@@ -226,6 +230,7 @@ function Profile({ currentUser }) {
           </div>
         </div>
       </div>
+      }
     </div>
   );
 }

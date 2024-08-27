@@ -1,6 +1,15 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import bcrypt from "bcryptjs-react";
 
+export const fetchLoggedId = createAsyncThunk(
+  "users/fetchLoggedId",
+  async () => {
+    const res = await fetch("http://localhost:8000/loggedUserID");
+    const data = await res.json();
+    return data;
+  }
+);
+
 export const fetchAllUsers = createAsyncThunk(
   "users/fetchAllUsers",
   async () => {
@@ -83,7 +92,20 @@ export const userLogin = createAsyncThunk(
           }
         });
 
-      return result;
+        if(typeof result === 'object'){
+
+          const res = await fetch("http://localhost:8000/loggedUserID", {
+            method: "PATCH",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({id:result.id}),
+          });
+          const data = await res.json();
+          console.log(data)
+          return result;
+        }
+
     } else {
       alert("user does not exist");
     }
@@ -281,6 +303,9 @@ export const usersSlice = createSlice({
     loggedUserId: "",
     submittedSearch: "",
     searchResults: [],
+    id: "",
+    user: {},
+    isLoading: false
   },
   reducers: {
     toggleListEdit: (state, action) => {
@@ -322,11 +347,29 @@ export const usersSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    /*builder.addCase(fetchAllUsers.pending, (state) => {
+    builder.addCase(fetchLoggedId.pending, (state) => {
       state.isLoading = true
-    })*/
+    })
+    builder.addCase(fetchLoggedId.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.id = action.payload.id;
+      const userIndex = state.usersArr.findIndex(
+        (user) => user.id == action.payload.id
+      );
+
+      console.log("***", userIndex, state.usersArr[userIndex])
+      state.user = state.usersArr[userIndex];
+      state.currentUser = state.usersArr[userIndex];
+
+    
+
+    });
+    builder.addCase(fetchAllUsers.pending, (state) => {
+      state.isLoading = true;
+      state.currentUser.lists = [];
+    })
     builder.addCase(fetchAllUsers.fulfilled, (state, action) => {
-      //state.isLoading = false
+      state.isLoading = false
       state.usersArr = action.payload;
     });
     /*builder.addCase(fetchAllUsers.rejected, (state, action) => {
@@ -334,11 +377,11 @@ export const usersSlice = createSlice({
       state.error = action.error.message
     })*/
 
-    /*builder.addCase(fetchAllUsers.pending, (state) => {
+    builder.addCase(fetchAddUser.pending, (state) => {
       state.isLoading = true
-    })*/
+    })
     builder.addCase(fetchAddUser.fulfilled, (state, action) => {
-      //state.isLoading = false
+      state.isLoading = false
       state.usersArr.push(action.payload);
       state.registrationStatus = true;
     });
@@ -346,9 +389,12 @@ export const usersSlice = createSlice({
       state.isLoading = false
       state.error = action.error.message
     })*/
+      builder.addCase(fetchUpdateUser.pending, (state) => {
+        state.isLoading = true
+      })
 
     builder.addCase(fetchUpdateUser.fulfilled, (state, action) => {
-      console.log("payload for updateLIst", action.payload);
+      state.isLoading = false;
       state.currentUser = { ...action.payload };
       const userIndex = state.usersArr.findIndex(
         (user) => user.name === action.payload.id
@@ -357,15 +403,16 @@ export const usersSlice = createSlice({
       state.usersArr[userIndex] = state.currentUser;
     });
     builder.addCase(fetchDeleteUser.fulfilled, (state, action) => {});
-    /*b
-    /*builder.addCase(fetchAllUsers.pending, (state) => {
+    
+    builder.addCase(userLogin.pending, (state) => {
       state.isLoading = true
-    })*/
+    })
     builder.addCase(userLogin.fulfilled, (state, action) => {
-      console.log("payload", action.payload);
+      state.isLoading = false;
       if (action.payload) {
         //let userCopy = action.payload;
         //userCopy.loginStatus = true;
+
         state.loginStatus = true;
         state.currentUser = action.payload;
         state.loggedUserId = action.payload.id;
@@ -376,11 +423,11 @@ export const usersSlice = createSlice({
       state.error = action.error.message
     })*/
 
-    /*builder.addCase(fetchAllUsers.pending, (state) => {
+    builder.addCase(fetchAddList.pending, (state) => {
       state.isLoading = true
-    })*/
+    })
     builder.addCase(fetchAddList.fulfilled, (state, action) => {
-      console.log("payload for addLIst", action.payload);
+      state.isLoading = false;
       state.currentUser = { ...action.payload };
       const userIndex = state.usersArr.findIndex(
         (user) => user.name === action.payload.name
@@ -389,8 +436,11 @@ export const usersSlice = createSlice({
       state.usersArr[userIndex].lists = [...action.payload.lists];
     });
 
+    builder.addCase(fetchDeleteList.pending, (state) => {
+      state.isLoading = true
+    })
     builder.addCase(fetchDeleteList.fulfilled, (state, action) => {
-      console.log("payload for deleteLIst", action.payload);
+      state.isLoading = false;
       state.currentUser = { ...action.payload };
       const userIndex = state.usersArr.findIndex(
         (user) => user.name === action.payload.name
@@ -399,8 +449,11 @@ export const usersSlice = createSlice({
       state.usersArr[userIndex].lists = [...action.payload.lists];
     });
 
+    builder.addCase(fetchUpdateList.pending, (state) => {
+      state.isLoading = true
+    })
     builder.addCase(fetchUpdateList.fulfilled, (state, action) => {
-      console.log("payload for updateLIst", action.payload);
+      state.isLoading = false;
       state.currentUser = { ...action.payload };
       const userIndex = state.usersArr.findIndex(
         (user) => user.name === action.payload.name
@@ -408,8 +461,11 @@ export const usersSlice = createSlice({
 
       state.usersArr[userIndex].lists = [...action.payload.lists];
     });
+    builder.addCase(fetchAddItem.pending, (state) => {
+      state.isLoading = true
+    })
     builder.addCase(fetchAddItem.fulfilled, (state, action) => {
-      console.log("payload for updateLIst", action.payload);
+      state.isLoading = false;
       state.currentUser = { ...action.payload };
       const userIndex = state.usersArr.findIndex(
         (user) => user.name === action.payload.name
@@ -417,6 +473,10 @@ export const usersSlice = createSlice({
 
       state.usersArr[userIndex].lists = [...action.payload.lists];
     });
+
+    builder.addCase(fetchUpdateItem.pending, (state) => {
+      state.isLoading = true
+    })
     builder.addCase(fetchUpdateItem.fulfilled, (state, action) => {
       console.log("payload for updateLIst", action.payload);
       state.currentUser = { ...action.payload };
@@ -426,8 +486,11 @@ export const usersSlice = createSlice({
 
       state.usersArr[userIndex].lists = [...action.payload.lists];
     });
+    builder.addCase(fetchDeleteItem.pending, (state) => {
+      state.isLoading = true
+    })
     builder.addCase(fetchDeleteItem.fulfilled, (state, action) => {
-      console.log("payload for updateLIst", action.payload);
+      state.isLoading = false;
       state.currentUser = { ...action.payload };
       const userIndex = state.usersArr.findIndex(
         (user) => user.name === action.payload.name

@@ -1,3 +1,5 @@
+
+
 import "./App.css";
 import { useState, useEffect } from "react";
 import Home from "./components/Home";
@@ -16,7 +18,7 @@ import ProtectedRoutes from "./components/ProtectedRoute";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import bcrypt from "bcryptjs-react";
 
-import { fetchAllUsers, setSearchResults } from "./app/usersSlice";
+import { fetchAllUsers, fetchLoggedId, setSearchResults } from "./app/usersSlice";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 
@@ -30,25 +32,28 @@ function App() {
     dispatch(fetchAllUsers());
   }, [dispatch]);
 
-  let loginStatus = useSelector((state) => state.users.loginStatus);
+  useEffect(() => {
+    dispatch(fetchLoggedId());
+  }, [dispatch])
 
-  /*let logStat = useSelector((state) => state.users.loginStatus);
+  //let loginStatus = useSelector((state) => state.users.loginStatus);
+
+  let logStat = useSelector((state) => state.users.loginStatus);
   let loginStatus = JSON.parse(localStorage.getItem("loginStatus")) || logStat;
 
-  //let loggedUserIdToken = useSelector((state) => state.users.loggedUserId);
-  let currUser = useSelector((state) => state.users.currentUser);
-  let currentUser = JSON.parse(localStorage.getItem("currentUser")) || currUser;
-  //let loggedUserId =
-  // JSON.parse(localStorage.getItem("loggedUserId")) || loggedUserIdToken;
+  let loggedUserIdToken = useSelector((state) => state.users.loggedUserId);
+  //let currUser = useSelector((state) => state.users.currentUser);
+  //let currentUser = JSON.parse(localStorage.getItem("currentUser")) || currUser;
+  let loggedUserId =
+  JSON.parse(localStorage.getItem("loggedUserId")) || loggedUserIdToken;
   //let user = JSON.parse(localStorage.getItem("loggedUserId")) ||;
-  console.log(currUser);
   useEffect(() => {
     localStorage.setItem("loginStatus", JSON.stringify(loginStatus));
-    // localStorage.setItem("loggedUserId", JSON.stringify(loggedUserId));
-    localStorage.setItem("currentUser", JSON.stringify(currentUser));
+     localStorage.setItem("loggedUserId", JSON.stringify(loggedUserId));
+    //localStorage.setItem("currentUser", JSON.stringify(currentUser));
 
     //console.log(loginStatus, loggedUserId);
-  }, [loginStatus, currentUser]);*/
+  }, [loginStatus, loggedUserId]);
 
   //navigate({ pathname, search: `?${createSearchParams(params)}` });
   const submittedSearch = useSelector((state) => state.users.submittedSearch);

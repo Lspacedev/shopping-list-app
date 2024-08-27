@@ -49,7 +49,7 @@ function Header({
             />
           </div>
           <div className="header-profile-pic" onClick={handleNavigateProfile}>
-            {user.profilePic && <img src={user.profilePic} alt="profile" />}
+            {user && <img src={user.profilePic} alt="profile" />}
           </div>
         </div>
       </div>
