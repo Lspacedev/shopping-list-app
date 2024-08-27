@@ -46,7 +46,6 @@ function App() {
     console.log(loginStatus, loggedUserId);
   }, [loginStatus, loggedUserId]);*/
 
-  //navigate({ pathname, search: `?${createSearchParams(params)}` });
   const submittedSearch = useSelector((state) => state.users.submittedSearch);
   const user = useSelector((state) => state.users.currentUser);
   console.log(user);
