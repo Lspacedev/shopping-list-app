@@ -9,7 +9,7 @@ function ItemForm({ listName, toggleClicked }) {
     category: "",
     notes: "",
     itemPic: "",
-
+    share: false,
     edit: false,
   });
   const dispatch = useDispatch();

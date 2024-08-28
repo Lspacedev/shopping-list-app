@@ -12,6 +12,7 @@ function List({ handleUpdateList, handleListResubmit, handleDeleteList }) {
     quantity: "",
     category: "",
     notes: "",
+    share: false,
     edit: false,
   });
   const lists = useSelector((state) => state.users.currentUser?.lists) || [];
@@ -47,8 +48,10 @@ function List({ handleUpdateList, handleListResubmit, handleDeleteList }) {
 
   return (
     <div className="List">
-      <Backarrow handleBackNavigate={handleBackNavigate} />
-      <AddItem listName={currList && currList.listName} />
+      <div className="back-add">
+        <Backarrow handleBackNavigate={handleBackNavigate} />
+        <AddItem listName={currList && currList.listName} />
+      </div>
 
       <div className="list-content">
         <div className="list-info">

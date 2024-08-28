@@ -9,10 +9,13 @@ import {
   fetchUpdateList,
   fetchAddSharedList,
   fetchDeleteSharedList,
+  toggleShareFalse,
+  toggleShareTrue,
 } from "../app/usersSlice";
 import { toggleListEdit } from "../app/usersSlice";
 
 function ListCard({ list, handleNavigateList, listName, index }) {
+  const [isShared, setIsShared] = useState(false);
   const user = useSelector((state) => state.users.currentUser);
   const [obj, setObj] = useState({
     listName: "",
@@ -20,6 +23,7 @@ function ListCard({ list, handleNavigateList, listName, index }) {
     category: "",
     notes: "",
     items: [],
+    share: false,
     edit: false,
   });
 
@@ -47,6 +51,7 @@ function ListCard({ list, handleNavigateList, listName, index }) {
       category: "",
       notes: "",
       items: [],
+      share: false,
       edit: false,
     };
     let [list] = user.lists.filter((list) => list.listName === name);
@@ -64,13 +69,14 @@ function ListCard({ list, handleNavigateList, listName, index }) {
     dispatch(fetchUpdateList({ name: name, item: newListObj }));
   }
   function handleShareList(obj) {
+    dispatch(toggleShareTrue(list.listName));
     dispatch(fetchAddSharedList(obj));
   }
   function handleUnshareList(obj) {
-    console.log(obj.id);
+    dispatch(toggleShareFalse(list.listName));
     dispatch(fetchDeleteSharedList(obj));
   }
-
+  console.log(list);
   return (
     <div className="ListCard">
       <div className="list-content">
@@ -133,7 +139,22 @@ function ListCard({ list, handleNavigateList, listName, index }) {
             className="list-info"
             onClick={() => handleNavigateList(listName, index)}
           >
-            {JSON.stringify(list)}
+            <div>
+              <h6>List name</h6>
+              {list.listName}
+            </div>
+            <div>
+              <h6>Quantity</h6>
+              {list.quantity}
+            </div>
+            <div>
+              <h6>Category</h6>
+              {list.category}
+            </div>
+            <div>
+              <h6>Notes</h6>
+              {list.notes}
+            </div>
           </div>
         )}
         <div className="delete-update">
@@ -157,8 +178,15 @@ function ListCard({ list, handleNavigateList, listName, index }) {
           >
             Delete
           </button>
-          <button onClick={() => handleShareList(list)}>share list</button>
-          <button onClick={() => handleUnshareList(list)}>unshare list</button>
+          {list.share === false ? (
+            <button className="share" onClick={() => handleShareList(list)}>
+              Share
+            </button>
+          ) : (
+            <button className="share" onClick={() => handleUnshareList(list)}>
+              Unshare
+            </button>
+          )}
         </div>
       </div>
     </div>

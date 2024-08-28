@@ -43,7 +43,9 @@ function DisplayLists() {
 
   //useeffect to listen to changes in listInfo, clicked listcard info, and navigate to clicked card subpage
   useEffect(() => {
-    navigation(`/home/lists/${listInfo.name}`);
+    if (listInfo.name !== "") {
+      navigation(`/home/lists/${listInfo.name}`);
+    }
   }, [listInfo]);
 
   return (
@@ -52,7 +54,6 @@ function DisplayLists() {
         <div>Loading... </div>
       ) : (
         <div>
-          (
           {list_name !== "" && typeof list_name !== "undefined" ? (
             typeof lists !== "undefined" && (
               <Outlet context={{ listArr: lists[listInfo.index] }} />
@@ -82,7 +83,6 @@ function DisplayLists() {
               )}
             </div>
           )}
-          )
         </div>
       )}
     </div>

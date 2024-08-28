@@ -374,6 +374,20 @@ export const usersSlice = createSlice({
       });
       state.currentUser.lists[listIndex].items = newItems;
     },
+    toggleShareTrue: (state, action) => {
+      const listIndex = state.currentUser.lists.findIndex(
+        (list) => list.listName === action.payload
+      );
+
+      state.currentUser.lists[listIndex].share = true;
+    },
+    toggleShareFalse: (state, action) => {
+      const listIndex = state.currentUser.lists.findIndex(
+        (list) => list.listName === action.payload
+      );
+
+      state.currentUser.lists[listIndex].share = false;
+    },
     userLogout: (state, action) => {
       state.loggedUserId = "";
       state.loginStatus = false;
@@ -566,6 +580,8 @@ export const {
   userLogout,
   submitSearch,
   setSearchResults,
+  toggleShareTrue,
+  toggleShareFalse,
 } = usersSlice.actions;
 
 export default usersSlice.reducer;

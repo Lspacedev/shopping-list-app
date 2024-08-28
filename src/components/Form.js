@@ -12,6 +12,7 @@ function Form({ toggleClicked }) {
     category: "",
     notes: "",
     items: [],
+    share: false,
     edit: false,
   });
   const dispatch = useDispatch();
