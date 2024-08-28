@@ -3,9 +3,6 @@ import { Outlet } from "react-router-dom";
 
 import Header from "./Header";
 import AddList from "./AddList";
-import { useSelector, useDispatch } from "react-redux";
-import { fetchAllUsers, setSearchResults } from "../app/usersSlice";
-import { useState, useEffect } from "react";
 
 function Home() {
   return (

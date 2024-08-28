@@ -13,61 +13,7 @@ class Dashboard extends React.Component {
   }
   render() {
     return (
-      <div className="Dashboard">
-        <div className="recipes-number">
-          <div>
-            <h5>Number of recipes</h5>
-            <RiFileList3Line className="icon" />
-          </div>
-
-          <p>{this.props.currentUser.recipes.length}</p>
-        </div>
-        <div className="recipes-categories">
-          <div className="items">
-            <div>
-              <h5>Breakfast</h5>
-              <MdOutlineFreeBreakfast className="icon" />
-            </div>
-
-            <p>{this.props.breakfast}</p>
-          </div>
-          <div className="items">
-            <div>
-              <h5>Lunch</h5>
-              <MdOutlineLunchDining className="icon" />
-            </div>
-            <p>{this.props.lunch}</p>
-          </div>
-          <div className="items">
-            <div>
-              <h5>Dinner</h5>
-              <MdOutlineDinnerDining className="icon" />
-            </div>
-            <p>{this.props.dinner}</p>
-          </div>
-          <div className="items">
-            <div>
-              <h5>Appetiser</h5>
-              <GiBread className="icon" />
-            </div>
-            <p>{this.props.appetiser}</p>
-          </div>
-          <div className="items">
-            <div>
-              <h5>Main</h5>
-              <GiBowlOfRice className="icon" />
-            </div>
-            <p>{this.props.main}</p>
-          </div>
-          <div className="items">
-            <div>
-              <h5>Dessert</h5>
-              <LuDessert className="icon" />
-            </div>
-            <p>{this.props.dessert}</p>
-          </div>
-        </div>
-      </div>
+      <div className="Dashboard">{JSON.stringify(this.props.sharedLists)}</div>
     );
   }
 }

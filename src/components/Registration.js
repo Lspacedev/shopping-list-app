@@ -3,9 +3,11 @@ import { useNavigate } from "react-router-dom";
 import { fetchAddUser } from "../app/usersSlice";
 import { useDispatch, useSelector } from "react-redux";
 
-function Registration({ count }) {
+function Registration() {
+  const users = useSelector((state) => state.users.usersArr);
+
   const [userDetails, setUserDetails] = useState({
-    id: (count + 1).toString(),
+    id: (users.length + 1).toString(),
     name: "",
     surname: "",
     email: "",

@@ -1,10 +1,14 @@
 import { IoIosSearch } from "react-icons/io";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { submitSearch, setSearchResults } from "../app/usersSlice";
+import {
+  fetchAllUsers,
+  submitSearch,
+  setSearchResults,
+  fetchSharedLists,
+} from "../app/usersSlice";
 import { useSearchParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-
 
 function Searchbar({}) {
   const [searchInput, setSearchInput] = useState("");
@@ -17,23 +21,48 @@ function Searchbar({}) {
       dispatch(submitSearch(""));
       dispatch(setSearchResults([]));
     }
-    setSearchInput(e.target.value);
+
+    setSearchParams({ q: e.target.value });
   }
   function handleSearchSubmit(e) {
     e.preventDefault();
 
-    setSearchParams({ q: searchInput });
+    //setSearchParams({ q: searchInput });
     dispatch(submitSearch(searchTerm));
-
-
   }
+
+  const submittedSearch =
+    useSelector((state) => state.users.submittedSearch?.term) || "";
+  const lists = useSelector((state) => state.users.currentUser?.lists) || [];
+  const isLoading = useSelector((state) => state.users.isLoading);
+
   useEffect(() => {
-    dispatch(submitSearch(searchTerm));
+    if (typeof lists !== "undefined" && lists.length > 0) {
+      dispatch(submitSearch(searchTerm));
+    }
+  }, [lists, dispatch]);
 
-    console.log({searchTerm, searchParams});
+  useEffect(() => {
+    if (submittedSearch.length > 0) {
+      let items = [];
+      let filteredLists = lists.filter((list) => {
+        let filteredItems = list.items.filter((item) => {
+          return (
+            item.itemName.toLowerCase().match(submittedSearch.toLowerCase()) ||
+            item.category.toLowerCase().match(submittedSearch.toLowerCase())
+          );
+        });
 
-  }, [searchTerm, searchParams]);
- 
+        items.push(filteredItems);
+      });
+
+      dispatch(setSearchResults(items.flat()));
+    }
+    return () => {
+      //setSearchResults([]);
+    };
+  }, [submittedSearch, dispatch]);
+
   return (
     <div className="search-div">
       <div id="search-icon-div">
@@ -49,7 +78,7 @@ function Searchbar({}) {
         type="search"
         placeholder="Search recipes"
         onChange={handleSearchChange}
-        value={searchInput}
+        value={searchTerm}
       />
       <button id="search-btn" onClick={handleSearchSubmit}>
         search

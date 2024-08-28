@@ -3,7 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchAddList } from "../app/usersSlice";
 
 function Form({ toggleClicked }) {
+  const getLists = useSelector((state) => state.users.currentUser?.lists) || [];
+
   const [obj, setObj] = useState({
+    id: (getLists.length + 1).toString(),
     listName: "",
     quantity: "",
     category: "",

@@ -14,13 +14,14 @@ function DisplayLists() {
   });
   const isLoading = useSelector((state) => state.users.isLoading);
   const getLists = useSelector((state) => state.users.currentUser?.lists) || [];
-  const lists = isLoading === true ? []: getLists;
+  const lists = isLoading === true ? [] : getLists;
+
   const searchResults = useSelector((state) => state.users.searchResults);
-  console.log({ lists });
+
   const { list_name } = useParams();
+
   const user = useSelector((state) => state.users.user);
-  //console.log(lists, "sssssss")
-  //navigation
+
   const navigation = useNavigate();
   const dispatch = useDispatch();
 
@@ -45,43 +46,45 @@ function DisplayLists() {
     navigation(`/home/lists/${listInfo.name}`);
   }, [listInfo]);
 
-
-
-  console.log({ searchResults });
   return (
     <div className="DisplayLists">
-      {isLoading === true ? <div>Loading... </div> :
-       <div>
-          ({list_name !== "" && typeof list_name !== "undefined" ? (
-          typeof lists !== "undefined" && <Outlet context={{ listArr: lists[listInfo.index] }} />
-        ) : (
-          <div className="lists-div">
-            {searchResults && searchResults.length !== 0 ? (
-              searchResults.map((item, i) => (
-                <div className="item" key={i}>
-                  <div>{item.itemName}</div>
-                </div>
-              ))
-            ) : typeof lists !=="undefined"&&lists.length > 0 ? (
-              lists.map((list, i) => (
-                <div className="item" key={i}>
-                  <ListCard
-                    key={i}
-                    list={list}
-                    handleNavigateList={handleNavigateList}
-                    listName={list.listName}
-                    index={i}
-                  />
-                </div>
-              ))
-            ) : (
-              <div>No lists added</div>
-            )}
-          </div>
-        )})
-       </div>
-      
-      }
+      {isLoading === true ? (
+        <div>Loading... </div>
+      ) : (
+        <div>
+          (
+          {list_name !== "" && typeof list_name !== "undefined" ? (
+            typeof lists !== "undefined" && (
+              <Outlet context={{ listArr: lists[listInfo.index] }} />
+            )
+          ) : (
+            <div className="lists-div">
+              {searchResults && searchResults.length !== 0 ? (
+                searchResults.map((item, i) => (
+                  <div className="item" key={i}>
+                    <div>{item.itemName}</div>
+                  </div>
+                ))
+              ) : typeof lists !== "undefined" && lists.length > 0 ? (
+                lists.map((list, i) => (
+                  <div className="item" key={i}>
+                    <ListCard
+                      key={i}
+                      list={list}
+                      handleNavigateList={handleNavigateList}
+                      listName={list.listName}
+                      index={i}
+                    />
+                  </div>
+                ))
+              ) : (
+                <div>No lists added</div>
+              )}
+            </div>
+          )}
+          )
+        </div>
+      )}
     </div>
   );
 }

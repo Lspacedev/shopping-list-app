@@ -4,7 +4,12 @@ import { useNavigate } from "react-router-dom";
 import Backarrow from "./Backarrow";
 
 import { useDispatch, useSelector } from "react-redux";
-import { fetchDeleteList, fetchUpdateList } from "../app/usersSlice";
+import {
+  fetchDeleteList,
+  fetchUpdateList,
+  fetchAddSharedList,
+  fetchDeleteSharedList,
+} from "../app/usersSlice";
 import { toggleListEdit } from "../app/usersSlice";
 
 function ListCard({ list, handleNavigateList, listName, index }) {
@@ -57,6 +62,13 @@ function ListCard({ list, handleNavigateList, listName, index }) {
 
     ////dispatch the new list to the fetchAddlist function
     dispatch(fetchUpdateList({ name: name, item: newListObj }));
+  }
+  function handleShareList(obj) {
+    dispatch(fetchAddSharedList(obj));
+  }
+  function handleUnshareList(obj) {
+    console.log(obj.id);
+    dispatch(fetchDeleteSharedList(obj));
   }
 
   return (
@@ -145,6 +157,8 @@ function ListCard({ list, handleNavigateList, listName, index }) {
           >
             Delete
           </button>
+          <button onClick={() => handleShareList(list)}>share list</button>
+          <button onClick={() => handleUnshareList(list)}>unshare list</button>
         </div>
       </div>
     </div>

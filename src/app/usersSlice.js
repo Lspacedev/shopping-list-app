@@ -1,10 +1,11 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import bcrypt from "bcryptjs-react";
+import { act } from "react";
 
 export const fetchLoggedId = createAsyncThunk(
   "users/fetchLoggedId",
   async () => {
-    const res = await fetch("http://localhost:8000/loggedUserID");
+    const res = await fetch("http://localhost:8000/loggedUserID/0");
     const data = await res.json();
     return data;
   }
@@ -14,6 +15,15 @@ export const fetchAllUsers = createAsyncThunk(
   "users/fetchAllUsers",
   async () => {
     const res = await fetch("http://localhost:8000/users");
+    const data = await res.json();
+    return data;
+  }
+);
+
+export const fetchSharedLists = createAsyncThunk(
+  "users/fetchSharedLists",
+  async () => {
+    const res = await fetch("http://localhost:8000/sharedLists");
     const data = await res.json();
     return data;
   }
@@ -92,20 +102,19 @@ export const userLogin = createAsyncThunk(
           }
         });
 
-        if(typeof result === 'object'){
-
-          const res = await fetch("http://localhost:8000/loggedUserID", {
-            method: "PATCH",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({id:result.id}),
-          });
-          const data = await res.json();
-          console.log(data)
-          return result;
-        }
-
+      if (typeof result === "object") {
+        let id = result.id;
+        const res = await fetch("http://localhost:8000/loggedUserID/0", {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ userId: id }),
+        });
+        const data = await res.json();
+        console.log("DATATA", data);
+        return result;
+      }
     } else {
       alert("user does not exist");
     }
@@ -293,6 +302,39 @@ export const fetchDeleteItem = createAsyncThunk(
   }
 );
 
+/* SHARED LISTS */
+
+export const fetchAddSharedList = createAsyncThunk(
+  "users/fetchAddSharedList",
+  async (obj) => {
+    const res = await fetch("http://localhost:8000/sharedLists", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(obj),
+    });
+    const data = await res.json();
+    return data;
+  }
+);
+
+export const fetchDeleteSharedList = createAsyncThunk(
+  "users/fetchDeleteSharedList",
+  async (obj, { getState }) => {
+    let id = obj.id;
+    const res = fetch(`http://localhost:8000/sharedLists/${id}`, {
+      method: "DELETE",
+      headers: {
+        "content-Type": "application/json",
+      },
+    });
+    const data = await res.json();
+    console.log(data);
+    return data;
+  }
+);
+
 export const usersSlice = createSlice({
   name: "users",
   initialState: {
@@ -305,7 +347,8 @@ export const usersSlice = createSlice({
     searchResults: [],
     id: "",
     user: {},
-    isLoading: false
+    isLoading: false,
+    sharedLists: [],
   },
   reducers: {
     toggleListEdit: (state, action) => {
@@ -332,6 +375,7 @@ export const usersSlice = createSlice({
       state.currentUser.lists[listIndex].items = newItems;
     },
     userLogout: (state, action) => {
+      state.loggedUserId = "";
       state.loginStatus = false;
       state.registrationStatus = false;
       let id = state.currentUser.id;
@@ -340,7 +384,7 @@ export const usersSlice = createSlice({
       state.usersArr.splice(userIndex, 1);
     },
     submitSearch: (state, action) => {
-      state.submittedSearch = {...state.submitSearch, term: action.payload};
+      state.submittedSearch = { ...state.submitSearch, term: action.payload };
     },
     setSearchResults: (state, action) => {
       state.searchResults = action.payload;
@@ -348,28 +392,25 @@ export const usersSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(fetchLoggedId.pending, (state) => {
-      state.isLoading = true
-    })
+      state.isLoading = true;
+    });
     builder.addCase(fetchLoggedId.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.id = action.payload.id;
+      state.id = action.payload.userId;
+
       const userIndex = state.usersArr.findIndex(
-        (user) => user.id == action.payload.id
+        (user) => user.id == action.payload.userId
       );
 
-      console.log("***", userIndex, state.usersArr[userIndex])
       state.user = state.usersArr[userIndex];
       state.currentUser = state.usersArr[userIndex];
-
-    
-
     });
     builder.addCase(fetchAllUsers.pending, (state) => {
       state.isLoading = true;
       state.currentUser.lists = [];
-    })
+    });
     builder.addCase(fetchAllUsers.fulfilled, (state, action) => {
-      state.isLoading = false
+      state.isLoading = false;
       state.usersArr = action.payload;
     });
     /*builder.addCase(fetchAllUsers.rejected, (state, action) => {
@@ -378,10 +419,10 @@ export const usersSlice = createSlice({
     })*/
 
     builder.addCase(fetchAddUser.pending, (state) => {
-      state.isLoading = true
-    })
+      state.isLoading = true;
+    });
     builder.addCase(fetchAddUser.fulfilled, (state, action) => {
-      state.isLoading = false
+      state.isLoading = false;
       state.usersArr.push(action.payload);
       state.registrationStatus = true;
     });
@@ -389,9 +430,9 @@ export const usersSlice = createSlice({
       state.isLoading = false
       state.error = action.error.message
     })*/
-      builder.addCase(fetchUpdateUser.pending, (state) => {
-        state.isLoading = true
-      })
+    builder.addCase(fetchUpdateUser.pending, (state) => {
+      state.isLoading = true;
+    });
 
     builder.addCase(fetchUpdateUser.fulfilled, (state, action) => {
       state.isLoading = false;
@@ -403,10 +444,10 @@ export const usersSlice = createSlice({
       state.usersArr[userIndex] = state.currentUser;
     });
     builder.addCase(fetchDeleteUser.fulfilled, (state, action) => {});
-    
+
     builder.addCase(userLogin.pending, (state) => {
-      state.isLoading = true
-    })
+      state.isLoading = true;
+    });
     builder.addCase(userLogin.fulfilled, (state, action) => {
       state.isLoading = false;
       if (action.payload) {
@@ -424,8 +465,8 @@ export const usersSlice = createSlice({
     })*/
 
     builder.addCase(fetchAddList.pending, (state) => {
-      state.isLoading = true
-    })
+      state.isLoading = true;
+    });
     builder.addCase(fetchAddList.fulfilled, (state, action) => {
       state.isLoading = false;
       state.currentUser = { ...action.payload };
@@ -437,8 +478,8 @@ export const usersSlice = createSlice({
     });
 
     builder.addCase(fetchDeleteList.pending, (state) => {
-      state.isLoading = true
-    })
+      state.isLoading = true;
+    });
     builder.addCase(fetchDeleteList.fulfilled, (state, action) => {
       state.isLoading = false;
       state.currentUser = { ...action.payload };
@@ -450,8 +491,8 @@ export const usersSlice = createSlice({
     });
 
     builder.addCase(fetchUpdateList.pending, (state) => {
-      state.isLoading = true
-    })
+      state.isLoading = true;
+    });
     builder.addCase(fetchUpdateList.fulfilled, (state, action) => {
       state.isLoading = false;
       state.currentUser = { ...action.payload };
@@ -462,8 +503,8 @@ export const usersSlice = createSlice({
       state.usersArr[userIndex].lists = [...action.payload.lists];
     });
     builder.addCase(fetchAddItem.pending, (state) => {
-      state.isLoading = true
-    })
+      state.isLoading = true;
+    });
     builder.addCase(fetchAddItem.fulfilled, (state, action) => {
       state.isLoading = false;
       state.currentUser = { ...action.payload };
@@ -475,10 +516,11 @@ export const usersSlice = createSlice({
     });
 
     builder.addCase(fetchUpdateItem.pending, (state) => {
-      state.isLoading = true
-    })
+      state.isLoading = true;
+    });
     builder.addCase(fetchUpdateItem.fulfilled, (state, action) => {
-      console.log("payload for updateLIst", action.payload);
+      state.isLoading = false;
+
       state.currentUser = { ...action.payload };
       const userIndex = state.usersArr.findIndex(
         (user) => user.name === action.payload.name
@@ -487,8 +529,8 @@ export const usersSlice = createSlice({
       state.usersArr[userIndex].lists = [...action.payload.lists];
     });
     builder.addCase(fetchDeleteItem.pending, (state) => {
-      state.isLoading = true
-    })
+      state.isLoading = true;
+    });
     builder.addCase(fetchDeleteItem.fulfilled, (state, action) => {
       state.isLoading = false;
       state.currentUser = { ...action.payload };
@@ -498,6 +540,23 @@ export const usersSlice = createSlice({
 
       state.usersArr[userIndex].lists = [...action.payload.lists];
     });
+    builder.addCase(fetchAddSharedList.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(fetchAddSharedList.fulfilled, (state, action) => {
+      //state.isLoading = false;
+      state.isLoading = false;
+      state.sharedLists.push(action.payload);
+    });
+    builder.addCase(fetchSharedLists.pending, (state) => {
+      state.isLoading = true;
+      //state.currentUser.lists = [];
+    });
+    builder.addCase(fetchSharedLists.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.sharedLists = action.payload;
+    });
+    builder.addCase(fetchDeleteSharedList.fulfilled, (state, action) => {});
   },
 });
 // Action creators are generated for each case reducer function

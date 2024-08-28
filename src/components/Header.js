@@ -3,14 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { IoIosSearch } from "react-icons/io";
 import { useSelector } from "react-redux";
 
-function Header({
-  handleSearchSubmit,
-  handleSearchChange,
-  searchInput,
-  profilePic,
-}) {
-  const user = useSelector((state) => state.users.currentUser);
-  console.log({ user });
+function Header() {
+  const user = useSelector((state) => state.users.user);
   //navigation
   const navigation = useNavigate();
   function handleHamBurgerMenu() {
@@ -24,13 +18,16 @@ function Header({
   function handleNavigateProfile() {
     navigation("/home/profile");
   }
+  function getProfilePic(obj) {
+    if (obj.profilePic === "") {
+      return "/images/avatar.png";
+    } else {
+      return obj.profilePic;
+    }
+  }
   return (
     <div className="Header">
-      <Searchbar
-      //handleSearchSubmit={handleSearchSubmit}
-      //handleSearchChange={handleSearchChange}
-      //searchInput={searchInput}
-      />
+      <Searchbar />
       <div className="ham-profile">
         <div className="hamburger-menu" onClick={handleHamBurgerMenu}>
           <div></div>
@@ -49,7 +46,7 @@ function Header({
             />
           </div>
           <div className="header-profile-pic" onClick={handleNavigateProfile}>
-            {user && <img src={user.profilePic} alt="profile" />}
+            {user && <img src={getProfilePic(user)} alt="profile" />}
           </div>
         </div>
       </div>

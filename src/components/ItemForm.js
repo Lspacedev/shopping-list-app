@@ -8,6 +8,8 @@ function ItemForm({ listName, toggleClicked }) {
     quantity: "",
     category: "",
     notes: "",
+    itemPic: "",
+
     edit: false,
   });
   const dispatch = useDispatch();
@@ -46,6 +48,17 @@ function ItemForm({ listName, toggleClicked }) {
 
   function handleFormClose() {
     toggleClicked();
+  }
+  function handleImageUpload(e) {
+    let input = document.getElementById("item-pic");
+    var fReader = new FileReader();
+    fReader.readAsDataURL(input.files[0]);
+    fReader.onloadend = function (event) {
+      setObj({
+        ...obj,
+        itemPic: event.target.result,
+      });
+    };
   }
 
   return (
@@ -106,6 +119,17 @@ function ItemForm({ listName, toggleClicked }) {
                 name="notes"
                 onChange={(e) => handleChange(e)}
                 value={obj.notes}
+              />
+            </label>
+          </div>
+          <div className="item-pic">
+            <label htmlFor="item-pic">
+              Item picture:
+              <input
+                type="file"
+                id="item-pic"
+                name="pic"
+                onChange={(e) => handleImageUpload(e)}
               />
             </label>
           </div>

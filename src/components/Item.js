@@ -51,6 +51,7 @@ function Item({ item, listName, itemName, index }) {
       quantity: "",
       category: "",
       notes: "",
+      itemPic: "",
 
       edit: false,
     };
@@ -67,6 +68,7 @@ function Item({ item, listName, itemName, index }) {
     newItemObj.quantity = obj.quantity === "" ? item.quantity : obj.quantity;
     newItemObj.category = obj.category === "" ? item.category : obj.category;
     newItemObj.notes = obj.notes === "" ? item.notes : obj.notes;
+    newItemObj.itemPic = obj.itemPic === "" ? item.itemPic : obj.itemPic;
 
     // items.edit = true;
 
@@ -74,6 +76,17 @@ function Item({ item, listName, itemName, index }) {
     dispatch(
       fetchUpdateItem({ listName: name, itemName: itemN, item: newItemObj })
     );
+  }
+  function handleImageUpload(e) {
+    let input = document.getElementById("item-pic2");
+    var fReader = new FileReader();
+    fReader.readAsDataURL(input.files[0]);
+    fReader.onloadend = function (event) {
+      setObj({
+        ...obj,
+        itemPic: event.target.result,
+      });
+    };
   }
 
   return (
@@ -129,6 +142,17 @@ function Item({ item, listName, itemName, index }) {
                   name="notes"
                   onChange={(e) => handleChange(e)}
                   value={obj.notes}
+                />
+              </label>
+            </div>
+            <div className="item-pic2">
+              <label htmlFor="item-pic2">
+                Item picture:
+                <input
+                  type="file"
+                  id="item-pic2"
+                  name="pic"
+                  onChange={(e) => handleImageUpload(e)}
                 />
               </label>
             </div>

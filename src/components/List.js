@@ -14,7 +14,7 @@ function List({ handleUpdateList, handleListResubmit, handleDeleteList }) {
     notes: "",
     edit: false,
   });
-  const lists = useSelector((state) => state.users.currentUser.lists);
+  const lists = useSelector((state) => state.users.currentUser?.lists) || [];
 
   const { listArr } = useOutletContext();
   function handleChange(e) {
@@ -48,7 +48,7 @@ function List({ handleUpdateList, handleListResubmit, handleDeleteList }) {
   return (
     <div className="List">
       <Backarrow handleBackNavigate={handleBackNavigate} />
-      <AddItem listName={currList.listName} />
+      <AddItem listName={currList && currList.listName} />
 
       <div className="list-content">
         <div className="list-info">
@@ -58,7 +58,7 @@ function List({ handleUpdateList, handleListResubmit, handleDeleteList }) {
           </div>
         </div>
         <div className="items">
-          {currList.items &&
+          {currList &&
             currList.items.map((item, i) => (
               <Item
                 key={i}

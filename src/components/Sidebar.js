@@ -2,8 +2,11 @@ import { useNavigate } from "react-router-dom";
 import { LuLayoutDashboard } from "react-icons/lu";
 import { CiViewList } from "react-icons/ci";
 import { CiLogout } from "react-icons/ci";
+import { userLogout } from "../app/usersSlice";
+import { useDispatch } from "react-redux";
 
 function Sidebar() {
+  const dispatch = useDispatch();
   //navigation
   const navigation = useNavigate();
   function handleNavigateRecipes() {
@@ -11,6 +14,12 @@ function Sidebar() {
   }
   function handleNavigateHome() {
     navigation("/home");
+  }
+  function handleUserLogout() {
+    localStorage.clear();
+    localStorage.removeItem("loggedUserId");
+    dispatch(userLogout());
+    navigation("/");
   }
   return (
     <div className="Sidebar">
@@ -29,7 +38,7 @@ function Sidebar() {
         </div>
       </div>
 
-      <div className="logout">
+      <div className="logout" onClick={() => handleUserLogout()}>
         <CiLogout />
         Logout
       </div>
