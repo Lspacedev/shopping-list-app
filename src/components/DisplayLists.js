@@ -13,15 +13,16 @@ function DisplayLists() {
     index: null,
   });
   const isLoading = useSelector((state) => state.users.isLoading);
-  const getLists = useSelector((state) => state.users.currentUser.lists);
+  const getLists = useSelector((state) => state.users.currentUser?.lists) || [];
   const lists = isLoading === true ? []: getLists;
   const searchResults = useSelector((state) => state.users.searchResults);
   console.log({ lists });
   const { list_name } = useParams();
   const user = useSelector((state) => state.users.user);
-  console.log(lists, "sssssss")
+  //console.log(lists, "sssssss")
   //navigation
   const navigation = useNavigate();
+  const dispatch = useDispatch();
 
   //function to store clicked listcard information to use in navigating to list subpage
   function handleNavigateList(name, index) {
@@ -43,6 +44,9 @@ function DisplayLists() {
   useEffect(() => {
     navigation(`/home/lists/${listInfo.name}`);
   }, [listInfo]);
+
+
+
   console.log({ searchResults });
   return (
     <div className="DisplayLists">

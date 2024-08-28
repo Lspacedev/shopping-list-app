@@ -24,6 +24,22 @@
             }
           ],
           "edit": false
+        },
+        {
+          "listName": "gg",
+          "quantity": "",
+          "category": "",
+          "notes": "",
+          "items": [
+            {
+              "itemName": "nn",
+              "quantity": "",
+              "category": "",
+              "notes": "",
+              "edit": false
+            }
+          ],
+          "edit": false
         }
       ]
     }
@@ -36,7 +52,10 @@
             "item": {
               "item": {
                 "item": {
-                  "id": "0"
+                  "item": {
+                    "id": "0"
+                  },
+                  "id": "1"
                 },
                 "id": "1"
               },

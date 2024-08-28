@@ -301,7 +301,7 @@ export const usersSlice = createSlice({
     registrationStatus: false,
     loginStatus: false,
     loggedUserId: "",
-    submittedSearch: "",
+    submittedSearch: {},
     searchResults: [],
     id: "",
     user: {},
@@ -340,7 +340,7 @@ export const usersSlice = createSlice({
       state.usersArr.splice(userIndex, 1);
     },
     submitSearch: (state, action) => {
-      state.submittedSearch = action.payload;
+      state.submittedSearch = {...state.submitSearch, term: action.payload};
     },
     setSearchResults: (state, action) => {
       state.searchResults = action.payload;

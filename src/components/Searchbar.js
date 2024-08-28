@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { submitSearch, setSearchResults } from "../app/usersSlice";
 import { useSearchParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+
 
 function Searchbar({}) {
   const [searchInput, setSearchInput] = useState("");
@@ -17,14 +19,21 @@ function Searchbar({}) {
     }
     setSearchInput(e.target.value);
   }
-  function handleSearchSubmit() {
-    setSearchParams({ q: searchInput });
+  function handleSearchSubmit(e) {
+    e.preventDefault();
 
-    dispatch(submitSearch(searchInput));
+    setSearchParams({ q: searchInput });
+    dispatch(submitSearch(searchTerm));
+
+
   }
   useEffect(() => {
-    console.log(searchTerm, searchParams);
-  }, [searchTerm]);
+    dispatch(submitSearch(searchTerm));
+
+    console.log({searchTerm, searchParams});
+
+  }, [searchTerm, searchParams]);
+ 
   return (
     <div className="search-div">
       <div id="search-icon-div">

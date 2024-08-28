@@ -21,10 +21,13 @@ import bcrypt from "bcryptjs-react";
 import { fetchAllUsers, fetchLoggedId, setSearchResults } from "./app/usersSlice";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
+import { useSearchParams } from "react-router-dom";
+
 
 function App() {
   const [users, setUsers] = useState([]);
   const [registrationStatus, setRegistrationStatus] = useState(false);
+ // const [searchParams, setSearchParams] = useSearchParams();
 
   const dispatch = useDispatch();
 
@@ -56,30 +59,39 @@ function App() {
   }, [loginStatus, loggedUserId]);
 
   //navigate({ pathname, search: `?${createSearchParams(params)}` });
-  const submittedSearch = useSelector((state) => state.users.submittedSearch);
+  //const searchTerm = searchParams.get("q") || "";
+
   const user = useSelector((state) => state.users.currentUser);
   console.log(user);
 
+  const submittedSearch = useSelector((state) => state.users.submittedSearch?.term) || "";
+  const lists = useSelector((state) => state.users.currentUser?.lists) || [];
+  const isLoading = useSelector((state) => state.users.isLoading);
+
   useEffect(() => {
+    console.log({submittedSearch})
+
     if (submittedSearch.length > 0) {
       let items = [];
-      let filteredLists = user.lists.filter((list) => {
-        let filteredItems = list.items.filter((item) => {
-          return (
-            item.itemName.toLowerCase().match(submittedSearch.toLowerCase()) ||
-            item.category.toLowerCase().match(submittedSearch.toLowerCase())
-          );
+      if(isLoading !== true) {
+        let filteredLists = lists.filter((list) => {
+          let filteredItems = list.items.filter((item) => {
+            return (
+              item.itemName.toLowerCase().match(submittedSearch.toLowerCase()) ||
+              item.category.toLowerCase().match(submittedSearch.toLowerCase())
+            );
+          });
+
+          items.push(filteredItems);
         });
 
-        items.push(filteredItems);
-      });
-
-      dispatch(setSearchResults(items.flat()));
+        dispatch(setSearchResults(items.flat()));
+      }
     }
     return () => {
       //setSearchResults([]);
     };
-  }, [submittedSearch]);
+  }, [submittedSearch, dispatch]);
 
   /***  USER FUNCTIONS TO: REGISTER, LOGIN, LOGOUT, UPDATE DETAILS ****/
 
