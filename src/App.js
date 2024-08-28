@@ -51,7 +51,7 @@ function App() {
 
   const submittedSearch =
     useSelector((state) => state.users.submittedSearch?.term) || "";
-  //const lists = useSelector((state) => state.users.currentUser?.lists) || [];
+  const lists = useSelector((state) => state.users.currentUser?.lists) || [];
 
   const sharedLists = useSelector((state) => state.users.sharedLists) || [];
 
@@ -65,7 +65,7 @@ function App() {
 
           <Route element={<ProtectedRoutes loginStatus={loginStatus} />}>
             <Route path="home" element={<Home />}>
-              <Route index element={<Dashboard sharedLists={sharedLists} />} />
+              <Route index element={<Dashboard count={lists.length} sharedLists={sharedLists} />} />
               <Route path="lists" element={<DisplayLists />}>
                 <Route path=":list_name" element={<List />} />
               </Route>

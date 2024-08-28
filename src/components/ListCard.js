@@ -109,17 +109,18 @@ function ListCard({ list, handleNavigateList, listName, index }) {
               </label>
             </div>
 
+
             <div className="category">
-              <label htmlFor="category">
-                Category
-                <textarea
-                  id="category"
-                  name="category"
-                  onChange={(e) => handleChange(e)}
-                  value={obj.category}
-                ></textarea>
-              </label>
-            </div>
+            <label htmlFor="category">
+              Category
+              <input
+                id="category"
+                name="category"
+                onChange={(e) => handleChange(e)}
+                value={obj.category}
+              />
+            </label>
+          </div>
 
             <div className="notes">
               <label htmlFor="notes">

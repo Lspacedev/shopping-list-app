@@ -394,7 +394,7 @@ select {
 
   text-align: center;
   padding: 50px 5px;
-  background-color: whitesmoke;
+  background-color: #0f0f09;
 }
 
 .logo {
@@ -552,14 +552,20 @@ select {
 .AddItem {
   padding: 0px;
 }
+
+.AddItem .Add-div {
+  margin: 0px;
+}
 .AddItem button {
   background-color: white;
   color: #0f0f09;
-  border: 1px solid #34632f;
   margin: 0px;
+
 }
 .AddItem button:hover {
-  color: white;
+  color: #34632f;
+  background-color: white;
+
 }
 
 .Form {
@@ -630,7 +636,7 @@ select {
   gap: 5px;
 }
 .DisplayLists .item {
-  width: 80%;
+  width: 100%;
   height: 50px;
   margin: 5px 0px;
   padding: 0px;
@@ -641,8 +647,9 @@ select {
 .list-content {
   width: 100%;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
   align-items: center;
+  gap: 25px;
 }
 
 .list-info {
@@ -665,9 +672,54 @@ select {
   gap: 2px;
 }
 
+
+.item-content {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 25px;
+}
+
+.item-info {
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+}
+.item-info h6 {
+  margin: 0px;
+  padding: 0px;
+}
+
+.item-info img {
+  width: 70px;
+  height: 70px;
+}
+
+
 .item-info {
   background-color: white;
 }
+.list-items-info h3{
+  margin: 0px;
+  padding: 0px;
+}
+.Item .update-form {
+  margin: 0px;
+  padding: 0px;
+  overflow: hidden;
+  display: flex;
+  gap: 5px;
+}
+.Item .update-form input,
+textarea,
+select {
+  width: 100%;
+  outline: none;
+  border: 1px solid #bbb;
+  margin: 0px 5px;
+}
+
 
 .back-add {
   display: flex;
@@ -715,7 +767,7 @@ select {
 }
 .back {
   text-align: start;
-  margin: 25px;
+  margin: 0px;
   cursor: pointer;
   font-size: 1.4rem;
 }
@@ -780,38 +832,39 @@ select {
 }
 
 .delete {
-  background-color: #1e2f23;
-  color: white;
+  color: #3f3f35;
+  background-color: white;
   border: none;
   padding: 10px 15px;
   margin: 0px;
 }
 .update {
-  background-color: #1e2f23;
-  color: white;
+  color: #3f3f35;
+  background-color: white;
   border: none;
   padding: 10px 15px;
   margin: 0px;
 }
 .share {
   border: 1px solid #1e2f23;
+  color: #3f3f35;
   background-color: white;
-
+  border: none;
   padding: 10px 15px;
   margin: 0px;
 }
 
 .share:hover {
   border: none;
-  background-color: #1e2f23;
-  color: white;
+  color: #3f3f35;
   cursor: pointer;
 }
-.up .update-form {
-  margin: 50px auto;
-  padding: 25px;
-  width: 400px;
+.ListCard .update-form {
+  margin: 0px;
+  padding: 0px;
   overflow: hidden;
+  display: flex;
+  gap: 5px;
 }
 .update-form input,
 textarea,
@@ -819,21 +872,30 @@ select {
   width: 100%;
   outline: none;
   border: 1px solid #bbb;
-  margin: 5px 0px;
+  margin: 0px 5px;
 }
 
-.update-form div label {
-  display: flex;
-  flex-direction: column;
-}
 
 .Dashboard {
+  height: calc(100% - 100px);
+
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
   gap: 25px;
+  padding: 5px;
+}
+
+.lists-count {
+  flex: 1;
+  text-align: center;
+  color: #0f0f09;
+}
+
+.shared-lists {
+  flex: 1;
+  text-align: center;
+  color: #0f0f09;
+
+
 }
 
 .lists-number {
@@ -1064,7 +1126,6 @@ select {
     color: #1e2f23;
     background-color: white;
     border: none;
-    font-size: 2rem;
   }
 
   .profile-pic {
@@ -1073,7 +1134,15 @@ select {
   .search-div {
     border: none;
   }
+  .ListCard .update-form {
+    display: block;
+    
+  }
 
+  .Item .update-form {
+    display: block;
+    
+  }
   .update-form {
     width: 75%;
   }
@@ -1081,7 +1150,7 @@ select {
   .update-form input,
   textarea,
   select {
-    width: 100%;
+    
     outline: none;
     border: 1px solid #bbb;
   }
@@ -1092,6 +1161,25 @@ select {
   .lists-categories .items {
     flex: 90%;
   }
+
+  .list-content {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .delete-update {
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+  .item-content {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+
 }
 
 @media (max-width: 375px) {

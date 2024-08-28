@@ -16,7 +16,7 @@ function AddItem({ listName }) {
         )}
 
         <button onClick={toggleClicked}>
-          <p id="add-btn-long-text">New Item</p>
+          New Item
         </button>
       </div>
     </div>

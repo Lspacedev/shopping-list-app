@@ -26,9 +26,11 @@ function Profile() {
   const dispatch = useDispatch();
 
   const users = useSelector((state) => state.users.usersArr);
-  const user = useSelector((state) => state.users.user);
-  const id = useSelector((state) => state.users.id);
+  const user = useSelector((state) => state.users.currentUser);
+  const cuser = useSelector((state) => state.users.currentUser);
 
+  const id = useSelector((state) => state.users.id);
+console.log(users, user, cuser)
   const usersCopy = [...users];
   const isLoading = useSelector((state) => state.users.isLoading);
 

@@ -393,9 +393,9 @@ export const usersSlice = createSlice({
       state.loginStatus = false;
       state.registrationStatus = false;
       let id = state.currentUser.id;
-      const userIndex = state.usersArr.findIndex((user) => user.id === id);
+      //const userIndex = state.usersArr.findIndex((user) => user.id === id);
 
-      state.usersArr.splice(userIndex, 1);
+     // state.usersArr.splice(userIndex, 1);
     },
     submitSearch: (state, action) => {
       state.submittedSearch = { ...state.submitSearch, term: action.payload };

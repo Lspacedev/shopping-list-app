@@ -88,7 +88,7 @@ function Item({ item, listName, itemName, index }) {
       });
     };
   }
-
+console.log(item.edit)
   return (
     <div className="Item">
       <div className="item-content">
@@ -122,16 +122,16 @@ function Item({ item, listName, itemName, index }) {
             </div>
 
             <div className="category">
-              <label htmlFor="category">
-                Category
-                <textarea
-                  id="category"
-                  name="category"
-                  onChange={(e) => handleChange(e)}
-                  value={obj.category}
-                ></textarea>
-              </label>
-            </div>
+            <label htmlFor="category">
+              Category
+              <input
+                id="category"
+                name="category"
+                onChange={(e) => handleChange(e)}
+                value={obj.category}
+              />
+            </label>
+          </div>
 
             <div className="notes">
               <label htmlFor="notes">
@@ -158,15 +158,33 @@ function Item({ item, listName, itemName, index }) {
             </div>
           </div>
         ) : (
-          <div className="item-info">{JSON.stringify(item)}</div>
+          <div className="item-info">
+            <div>
+              <img src={item.itemPic} alt="profile" />
+            </div>
+            <div>
+              <h6>Item name</h6>
+              {item.itemName}
+            </div>
+            <div>
+              <h6>Quantity</h6>
+              {item.quantity}
+            </div>
+            <div>
+              <h6>Category</h6>
+              {item.category}
+            </div>
+            <div>
+              <h6>Notes</h6>
+              {item.notes}
+            </div>
+          </div>
         )}
-        {/*<div className="delete-update">
+        <div className="delete-update">
           <button
             className="update"
             onClick={() => {
-              item.edit
-                ? handleUpdateItem(item.itemName, obj)
-                : handleUpdateItemEdit(item.itemName);
+              {item.edit === false? handleUpdateItemEdit(listName, itemName) :handleUpdateitem(listName, itemName, obj)}
             }}
           >
             {item.edit ? (
@@ -177,18 +195,18 @@ function Item({ item, listName, itemName, index }) {
           </button>
           <button
             className="delete"
-            onClick={() => handleDeleteItem(item.itemName)}
+            onClick={() => handleDeleteItem(itemName)}
           >
             Delete
           </button>
-        </div>*/}
-        <button onClick={() => handleUpdateItemEdit(listName, itemName)}>
+        </div>
+        {/*<button onClick={() => handleUpdateItemEdit(listName, itemName)}>
           upda
         </button>
         <button onClick={() => handleUpdateitem(listName, itemName, obj)}>
           sub
         </button>
-        <button onClick={() => handleDeleteItem(itemName)}>delete</button>
+        <button onClick={() => handleDeleteItem(itemName)}>delete</button>*/}
       </div>
     </div>
   );

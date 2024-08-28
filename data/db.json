@@ -1,5 +1,26 @@
 {
-  "users": [],
+  "users": [
+    {
+      "id": "1",
+      "name": "test",
+      "surname": "test2",
+      "email": "test@test.com",
+      "cell": "08877",
+      "password": "$2a$10$1rnf4Kil9lxf59Q2nYygGu9yZWlkCvhl094cMu.BYR.oZVPYA8Uya",
+      "profilePic": "",
+      "lists": []
+    },
+    {
+      "id": "2",
+      "name": "find",
+      "surname": "Fring",
+      "email": "test@test.comc",
+      "cell": "0887733",
+      "password": "$2a$10$249KDrvrklwjILc9e0nfHexnTN/dwWC.HuhHIQKur4wlSPhW9.lJa",
+      "profilePic": "",
+      "lists": []
+    }
+  ],
   "loggedUserID": [
     {
       "id": "0",

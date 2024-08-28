@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 function Registration() {
   const users = useSelector((state) => state.users.usersArr);
-
+  console.log(users)
   const [userDetails, setUserDetails] = useState({
     id: (users.length + 1).toString(),
     name: "",

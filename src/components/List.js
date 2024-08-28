@@ -53,9 +53,9 @@ function List({ handleUpdateList, handleListResubmit, handleDeleteList }) {
         <AddItem listName={currList && currList.listName} />
       </div>
 
-      <div className="list-content">
-        <div className="list-info">
-          <h1>{currList && currList.listName}</h1>
+      <div className="list-items">
+        <div className="list-items-info">
+          <h3>{currList && currList.listName}</h3>
           <div className="category-text">
             <p>{currList && currList.category}</p>
           </div>
