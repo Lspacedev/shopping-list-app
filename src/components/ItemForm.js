@@ -36,12 +36,19 @@ function ItemForm({ listName, toggleClicked }) {
 
     //if item is not found, add the item to the users items
     if (filteredItem.length === 0) {
-      let newitems = [...filteredList.items, obj];
+      if (obj.itemName === "") {
+        alert("Please enter an item name.");
+      } else {
+        let newitems = [...filteredList.items, obj];
 
-      //dispatch the new item to the fetchAdditem function
-      dispatch(
-        fetchAddItem({ listName: filteredList.listName, items: newitems })
-      );
+        //dispatch the new item to the fetchAdditem function
+        dispatch(
+          fetchAddItem({ listName: filteredList.listName, items: newitems })
+        );
+
+        //alert success
+        alert("Item has been succesfully added.");
+      }
     }
     toggleClicked();
   }

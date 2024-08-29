@@ -12,6 +12,7 @@ function Item({ item, listName, itemName, index }) {
     quantity: "",
     category: "",
     notes: "",
+    itemPic: "",
     items: [],
     edit: false,
   });
@@ -20,18 +21,27 @@ function Item({ item, listName, itemName, index }) {
   const dispatch = useDispatch();
 
   function handleDeleteItem(name) {
-    let userCopy = { ...user };
-    //get list
-    const [filteredList] = userCopy.lists.filter(
-      (list) => list.listName === listName
+    let deleteConfirmation = window.confirm(
+      "Are you sure you want to delete item?"
     );
-    const filteredItems = filteredList.items.filter(
-      (item) => item.itemName !== name
-    );
+    if (deleteConfirmation) {
+      let userCopy = { ...user };
+      //get list
+      const [filteredList] = userCopy.lists.filter(
+        (list) => list.listName === listName
+      );
+      const filteredItems = filteredList.items.filter(
+        (item) => item.itemName !== name
+      );
 
-    dispatch(
-      fetchDeleteItem({ listName: filteredList.listName, items: filteredItems })
-    );
+      dispatch(
+        fetchDeleteItem({
+          listName: filteredList.listName,
+          items: filteredItems,
+        })
+      );
+      alert("Item has been deleted");
+    }
   }
 
   function handleChange(e) {
@@ -46,36 +56,57 @@ function Item({ item, listName, itemName, index }) {
   }
 
   function handleUpdateitem(name, itemN, obj) {
-    let newItemObj = {
-      itemName: "",
-      quantity: "",
-      category: "",
-      notes: "",
-      itemPic: "",
+    if (obj) {
+      let updateConfirmation = window.confirm(
+        "You are about to update item information. Continue?"
+      );
+      if (updateConfirmation) {
+        let newItemObj = {
+          itemName: "",
+          quantity: "",
+          category: "",
+          notes: "",
+          itemPic: "",
+          edit: false,
+        };
+        let userCopy = { ...user };
+        //get list
+        const [filteredList] = userCopy.lists.filter(
+          (list) => list.listName === listName
+        );
+        const [item] = filteredList.items.filter(
+          (item) => item.itemName === itemN
+        );
 
-      edit: false,
-    };
-    let userCopy = { ...user };
-    //get list
-    const [filteredList] = userCopy.lists.filter(
-      (list) => list.listName === listName
-    );
-    const [item] = filteredList.items.filter((item) => item.itemName === itemN);
+        //*****refactor to switch statement*****
 
-    //*****refactor to switch statement*****
+        newItemObj.itemName =
+          obj.itemName === "" ? item.itemName : obj.itemName;
+        newItemObj.quantity =
+          obj.quantity === "" ? item.quantity : obj.quantity;
+        newItemObj.category =
+          obj.category === "" ? item.category : obj.category;
+        newItemObj.notes = obj.notes === "" ? item.notes : obj.notes;
+        newItemObj.itemPic = obj.itemPic === "" ? item.itemPic : obj.itemPic;
 
-    newItemObj.itemName = obj.itemName === "" ? item.itemName : obj.itemName;
-    newItemObj.quantity = obj.quantity === "" ? item.quantity : obj.quantity;
-    newItemObj.category = obj.category === "" ? item.category : obj.category;
-    newItemObj.notes = obj.notes === "" ? item.notes : obj.notes;
-    newItemObj.itemPic = obj.itemPic === "" ? item.itemPic : obj.itemPic;
-
-    // items.edit = true;
-
-    ////dispatch the new item to the fetchAdditem function
-    dispatch(
-      fetchUpdateItem({ listName: name, itemName: itemN, item: newItemObj })
-    );
+        // items.edit = true;
+        if (
+          !obj.itemName &&
+          !obj.quantity &&
+          !obj.category &&
+          !obj.notes &&
+          !obj.itemPic
+        ) {
+          alert("Error! No update information was entered!");
+        } else {
+          alert("Item has been updated");
+        }
+        ////dispatch the new item to the fetchAdditem function
+        dispatch(
+          fetchUpdateItem({ listName: name, itemName: itemN, item: newItemObj })
+        );
+      }
+    }
   }
   function handleImageUpload(e) {
     let input = document.getElementById("item-pic2");
@@ -88,7 +119,14 @@ function Item({ item, listName, itemName, index }) {
       });
     };
   }
-console.log(item.edit)
+  function getItemPic(obj) {
+    if (obj.itemPic === "") {
+      return "/images/bag.png";
+    } else {
+      return obj.itemPic;
+    }
+  }
+  console.log(item.edit);
   return (
     <div className="Item">
       <div className="item-content">
@@ -122,16 +160,16 @@ console.log(item.edit)
             </div>
 
             <div className="category">
-            <label htmlFor="category">
-              Category
-              <input
-                id="category"
-                name="category"
-                onChange={(e) => handleChange(e)}
-                value={obj.category}
-              />
-            </label>
-          </div>
+              <label htmlFor="category">
+                Category
+                <input
+                  id="category"
+                  name="category"
+                  onChange={(e) => handleChange(e)}
+                  value={obj.category}
+                />
+              </label>
+            </div>
 
             <div className="notes">
               <label htmlFor="notes">
@@ -156,11 +194,17 @@ console.log(item.edit)
                 />
               </label>
             </div>
+            <button
+              className="close"
+              onClick={() => handleUpdateItemEdit(listName, itemName)}
+            >
+              x
+            </button>
           </div>
         ) : (
           <div className="item-info">
             <div>
-              <img src={item.itemPic} alt="profile" />
+              <img src={getItemPic(item)} alt="icon" />
             </div>
             <div>
               <h6>Item name</h6>
@@ -184,7 +228,11 @@ console.log(item.edit)
           <button
             className="update"
             onClick={() => {
-              {item.edit === false? handleUpdateItemEdit(listName, itemName) :handleUpdateitem(listName, itemName, obj)}
+              {
+                item.edit === false
+                  ? handleUpdateItemEdit(listName, itemName)
+                  : handleUpdateitem(listName, itemName, obj);
+              }
             }}
           >
             {item.edit ? (
@@ -193,10 +241,7 @@ console.log(item.edit)
               <div>edit</div>
             )}
           </button>
-          <button
-            className="delete"
-            onClick={() => handleDeleteItem(itemName)}
-          >
+          <button className="delete" onClick={() => handleDeleteItem(itemName)}>
             Delete
           </button>
         </div>

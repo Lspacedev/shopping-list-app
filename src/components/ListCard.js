@@ -31,7 +31,14 @@ function ListCard({ list, handleNavigateList, listName, index }) {
   const dispatch = useDispatch();
 
   function handleDeleteList(name) {
-    dispatch(fetchDeleteList(name));
+    let deleteConfirmation = window.confirm(
+      "Are you sure you want to delete list?"
+    );
+    if (deleteConfirmation) {
+      alert("List has been deleted");
+
+      dispatch(fetchDeleteList(name));
+    }
   }
 
   function handleChange(e) {
@@ -45,36 +52,53 @@ function ListCard({ list, handleNavigateList, listName, index }) {
   }
 
   function handleUpdateList(name, obj) {
-    let newListObj = {
-      listName: "",
-      quantity: "",
-      category: "",
-      notes: "",
-      items: [],
-      share: false,
-      edit: false,
-    };
-    let [list] = user.lists.filter((list) => list.listName === name);
-    //*****refactor to switch statement*****
+    if (obj) {
+      let updateConfirmation = window.confirm(
+        "You are about to update list information. Continue?"
+      );
+      if (updateConfirmation) {
+        let newListObj = {
+          listName: "",
+          quantity: "",
+          category: "",
+          notes: "",
+          items: [],
+          share: false,
+          edit: false,
+        };
+        let [list] = user.lists.filter((list) => list.listName === name);
+        //*****refactor to switch statement*****
 
-    newListObj.listName = obj.listName === "" ? list.listName : obj.listName;
-    newListObj.quantity = obj.quantity === "" ? list.quantity : obj.quantity;
-    newListObj.category = obj.category === "" ? list.category : obj.category;
-    newListObj.notes = obj.notes === "" ? list.notes : obj.notes;
-    newListObj.items = list.items;
+        newListObj.listName =
+          obj.listName === "" ? list.listName : obj.listName;
+        newListObj.quantity =
+          obj.quantity === "" ? list.quantity : obj.quantity;
+        newListObj.category =
+          obj.category === "" ? list.category : obj.category;
+        newListObj.notes = obj.notes === "" ? list.notes : obj.notes;
+        newListObj.items = list.items;
+        newListObj.id = list.id;
 
-    // lists.edit = true;
-
-    ////dispatch the new list to the fetchAddlist function
-    dispatch(fetchUpdateList({ name: name, item: newListObj }));
+        // lists.edit = true;
+        if (!obj.listName && !obj.quantity && !obj.category && !obj.notes) {
+          alert("Error! No update information was entered!");
+        } else {
+          alert("List has been updated");
+        }
+        ////dispatch the new list to the fetchAddlist function
+        dispatch(fetchUpdateList({ name: name, item: newListObj }));
+      }
+    }
   }
   function handleShareList(obj) {
     dispatch(toggleShareTrue(list.listName));
     dispatch(fetchAddSharedList(obj));
+    alert(`${list.listName} has been shared with other users.`);
   }
   function handleUnshareList(obj) {
     dispatch(toggleShareFalse(list.listName));
     dispatch(fetchDeleteSharedList(obj));
+    alert(`${list.listName} has been unshared.`);
   }
   console.log(list);
   return (
@@ -109,18 +133,17 @@ function ListCard({ list, handleNavigateList, listName, index }) {
               </label>
             </div>
 
-
             <div className="category">
-            <label htmlFor="category">
-              Category
-              <input
-                id="category"
-                name="category"
-                onChange={(e) => handleChange(e)}
-                value={obj.category}
-              />
-            </label>
-          </div>
+              <label htmlFor="category">
+                Category
+                <input
+                  id="category"
+                  name="category"
+                  onChange={(e) => handleChange(e)}
+                  value={obj.category}
+                />
+              </label>
+            </div>
 
             <div className="notes">
               <label htmlFor="notes">
@@ -134,6 +157,12 @@ function ListCard({ list, handleNavigateList, listName, index }) {
                 />
               </label>
             </div>
+            <button
+              className="close"
+              onClick={() => handleUpdateListEdit(list.listName)}
+            >
+              x
+            </button>
           </div>
         ) : (
           <div
@@ -179,6 +208,7 @@ function ListCard({ list, handleNavigateList, listName, index }) {
           >
             Delete
           </button>
+
           {list.share === false ? (
             <button className="share" onClick={() => handleShareList(list)}>
               Share

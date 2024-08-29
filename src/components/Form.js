@@ -35,10 +35,17 @@ function Form({ toggleClicked }) {
 
     //if list is not found, add the list to the users lists
     if (filteredList.length === 0) {
-      let newLists = [...userCopy.lists, obj];
+      if (obj.listName === "") {
+        alert("Please enter a list name.");
+      } else {
+        let newLists = [...userCopy.lists, obj];
 
-      //dispatch the new list to the fetchAddlist function
-      dispatch(fetchAddList({ id: userCopy.id, lists: newLists }));
+        //dispatch the new list to the fetchAddlist function
+        dispatch(fetchAddList({ id: userCopy.id, lists: newLists }));
+
+        //alert success
+        alert("List has been succesfully added.");
+      }
     }
     toggleClicked();
   }

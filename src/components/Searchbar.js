@@ -39,7 +39,6 @@ function Searchbar({}) {
 
   useEffect(() => {
     if (typeof lists !== "undefined" && lists.length > 0) {
-      console.log(lists, searchTerm);
       dispatch(submitSearch(searchTerm));
     }
   }, [lists, dispatch]);

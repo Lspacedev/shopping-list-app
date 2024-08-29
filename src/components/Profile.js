@@ -6,6 +6,7 @@ import {
   fetchUpdateUser,
   fetchDeleteUser,
   userLogout,
+  fetchResetLoggedId,
 } from "../app/usersSlice";
 import { useDispatch, useSelector } from "react-redux";
 import bcrypt from "bcryptjs-react";
@@ -30,47 +31,69 @@ function Profile() {
   const cuser = useSelector((state) => state.users.currentUser);
 
   const id = useSelector((state) => state.users.id);
-console.log(users, user, cuser)
+  console.log(users, user, cuser);
   const usersCopy = [...users];
   const isLoading = useSelector((state) => state.users.isLoading);
 
   async function handleUpdateUser(obj) {
-    let newUserObj = {
-      name: "",
-      surname: "",
-      email: "",
-      cell: "",
-      password: "",
-      profilePic: "",
-    };
-    let userCopy = { ...user };
+    if (obj) {
+      let updateConfirmation = window.confirm(
+        "You are about to update your account information. Continue?"
+      );
+      if (updateConfirmation) {
+        let newUserObj = {
+          name: "",
+          surname: "",
+          email: "",
+          cell: "",
+          password: "",
+          profilePic: "",
+        };
+        let userCopy = { ...user };
 
-    //*****refactor to switch statement*****
-    let encryptedPass;
-    if (obj.password) {
-      const salt = await bcrypt.genSalt();
-      encryptedPass = await bcrypt.hash(obj.password, salt);
+        //*****refactor to switch statement*****
+        let encryptedPass;
+        if (obj.password) {
+          const salt = await bcrypt.genSalt();
+          encryptedPass = await bcrypt.hash(obj.password, salt);
+        }
+        newUserObj.name = obj.name === "" ? userCopy.name : obj.name;
+        newUserObj.surname =
+          obj.surname === "" ? userCopy.surname : obj.surname;
+        newUserObj.email = obj.email === "" ? userCopy.email : obj.email;
+        newUserObj.cell = obj.cell === "" ? userCopy.cell : obj.cell;
+        newUserObj.password =
+          obj.password === "" ? userCopy.password : encryptedPass;
+        newUserObj.profilePic =
+          obj.profilePic === "" ? userCopy.profilePic : obj.profilePic;
+        if (
+          !obj.name &&
+          !obj.surname &&
+          !obj.email &&
+          !obj.cell &&
+          !obj.password &&
+          !obj.profilePic
+        ) {
+          alert("Error! No update information was entered!");
+        } else {
+          alert("Account information has been updated");
+        }
+        ////dispatch the new item to the fetchAdditem function
+        dispatch(fetchUpdateUser({ user: newUserObj }));
+      }
     }
-    newUserObj.name = obj.name === "" ? userCopy.name : obj.name;
-    newUserObj.surname = obj.surname === "" ? userCopy.surname : obj.surname;
-    newUserObj.email = obj.email === "" ? userCopy.email : obj.email;
-    newUserObj.cell = obj.cell === "" ? userCopy.cell : obj.cell;
-    newUserObj.password =
-      obj.password === "" ? userCopy.password : encryptedPass;
-    newUserObj.profilePic =
-      obj.profilePic === "" ? userCopy.profilePic : obj.profilePic;
-
-    ////dispatch the new item to the fetchAdditem function
-    dispatch(fetchUpdateUser({ user: newUserObj }));
   }
 
   function handleDeleteAccount() {
+    alert("Account has been deleted");
     let userCopy = { ...user };
 
-    alert("You are about to delete your account. Continue?");
     dispatch(fetchDeleteUser(userCopy.id));
     //logout
     dispatch(userLogout());
+    localStorage.removeItem("loggedUserId");
+    localStorage.removeItem("loginStatus");
+    dispatch(fetchResetLoggedId());
     navigation("/");
   }
 
@@ -121,6 +144,9 @@ console.log(users, user, cuser)
                     onChange={(e) => handleImageUpload(e)}
                   />
                 </label>
+                <button className="close" onClick={() => setUpdate(false)}>
+                  x
+                </button>
               </div>
             ) : (
               <div className="profile-pic">

@@ -11,9 +11,11 @@ import List from "./components/List";
 import Dashboard from "./components/Dashboard";
 
 import ProtectedRoutes from "./components/ProtectedRoute";
+import ProtectedRouteReg from "./components/ProtectedRouteReg";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import {
+  getLoginStatus,
   fetchAllUsers,
   fetchLoggedId,
   fetchSharedLists,
@@ -23,18 +25,6 @@ import { useSelector } from "react-redux";
 
 function App() {
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(fetchAllUsers());
-  }, [dispatch]);
-  useEffect(() => {
-    dispatch(fetchSharedLists());
-  }, [dispatch]);
-
-  useEffect(() => {
-    dispatch(fetchLoggedId());
-  }, [dispatch]);
-
   let logStat = useSelector((state) => state.users.loginStatus);
   let loginStatus = JSON.parse(localStorage.getItem("loginStatus")) || logStat;
 
@@ -46,6 +36,20 @@ function App() {
     localStorage.setItem("loginStatus", JSON.stringify(loginStatus));
     localStorage.setItem("loggedUserId", JSON.stringify(loggedUserId));
   }, [loginStatus, loggedUserId]);
+
+  useEffect(() => {
+    dispatch(fetchAllUsers());
+  }, [dispatch]);
+  useEffect(() => {
+    dispatch(fetchSharedLists());
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(fetchLoggedId());
+  }, [dispatch]);
+  useEffect(() => {
+    dispatch(getLoginStatus(loginStatus));
+  }, [dispatch]);
 
   const user = useSelector((state) => state.users.currentUser);
 
@@ -60,12 +64,28 @@ function App() {
       <div className="App">
         <Routes>
           <Route exact path="/" element={<Landing />} />
-          <Route exact path="registration" element={<Registration />} />
-          <Route exact path="login" element={<Login />} />
+          <Route element={<ProtectedRouteReg loginStatus={loginStatus} />}>
+            <Route exact path="registration" element={<Registration />} />
+            <Route exact path="login" element={<Login />} />
+          </Route>
 
           <Route element={<ProtectedRoutes loginStatus={loginStatus} />}>
             <Route path="home" element={<Home />}>
-              <Route index element={<Dashboard count={lists.length} sharedLists={sharedLists} />} />
+              <Route
+                index
+                element={
+                  <Dashboard
+                    count={lists.length}
+                    sharedLists={
+                      sharedLists &&
+                      typeof sharedLists !== "undefined" &&
+                      sharedLists.length > 0
+                        ? sharedLists
+                        : []
+                    }
+                  />
+                }
+              />
               <Route path="lists" element={<DisplayLists />}>
                 <Route path=":list_name" element={<List />} />
               </Route>

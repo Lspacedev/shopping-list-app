@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 function Registration() {
   const users = useSelector((state) => state.users.usersArr);
-  console.log(users)
+  console.log(users);
   const [userDetails, setUserDetails] = useState({
     id: (users.length + 1).toString(),
     name: "",
@@ -59,6 +59,9 @@ function Registration() {
   return (
     <div className="Registration">
       <div className="register-form-container">
+        <div className="logo-land">
+          Grocery <span>List</span>
+        </div>
         <h2>Create new account</h2>
         <div className="register-to-login">
           Already have an account?
@@ -146,7 +149,7 @@ function Registration() {
         </form>
       </div>
       <div className="register-img">
-        <img src="images/login-register.jpg" alt="register" />
+        <img src="images/shop.jpg" alt="register" />
       </div>
     </div>
   );

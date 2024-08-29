@@ -11,6 +11,22 @@ export const fetchLoggedId = createAsyncThunk(
   }
 );
 
+export const fetchResetLoggedId = createAsyncThunk(
+  "users/fetchResetLoggedId",
+  async () => {
+    const res = await fetch("http://localhost:8000/loggedUserID/0", {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ userId: "0" }),
+    });
+    const data = await res.json();
+
+    return data;
+  }
+);
+
 export const fetchAllUsers = createAsyncThunk(
   "users/fetchAllUsers",
   async () => {
@@ -329,9 +345,8 @@ export const fetchDeleteSharedList = createAsyncThunk(
         "content-Type": "application/json",
       },
     });
-    const data = await res.json();
-    console.log(data);
-    return data;
+
+    return id;
   }
 );
 
@@ -351,12 +366,16 @@ export const usersSlice = createSlice({
     sharedLists: [],
   },
   reducers: {
+    getLoginStatus: (state, action) => {
+      state.loginStatus = action.payload;
+    },
     toggleListEdit: (state, action) => {
       const listIndex = state.currentUser.lists.findIndex(
         (list) => list.listName === action.payload
       );
 
-      state.currentUser.lists[listIndex].edit = true;
+      state.currentUser.lists[listIndex].edit =
+        !state.currentUser.lists[listIndex].edit;
     },
     toggleItemEdit: (state, action) => {
       const listIndex = state.currentUser.lists.findIndex(
@@ -370,7 +389,7 @@ export const usersSlice = createSlice({
         }
 
         // Otherwise, this is the one we want - return an updated value
-        return { ...item, edit: true };
+        return { ...item, edit: !item.edit };
       });
       state.currentUser.lists[listIndex].items = newItems;
     },
@@ -395,7 +414,7 @@ export const usersSlice = createSlice({
       let id = state.currentUser.id;
       //const userIndex = state.usersArr.findIndex((user) => user.id === id);
 
-     // state.usersArr.splice(userIndex, 1);
+      //state.usersArr.splice(userIndex, 1);
     },
     submitSearch: (state, action) => {
       state.submittedSearch = { ...state.submitSearch, term: action.payload };
@@ -418,6 +437,13 @@ export const usersSlice = createSlice({
 
       state.user = state.usersArr[userIndex];
       state.currentUser = state.usersArr[userIndex];
+    });
+    builder.addCase(fetchResetLoggedId.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(fetchResetLoggedId.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.id = action.payload.userId;
     });
     builder.addCase(fetchAllUsers.pending, (state) => {
       state.isLoading = true;
@@ -570,11 +596,17 @@ export const usersSlice = createSlice({
       state.isLoading = false;
       state.sharedLists = action.payload;
     });
-    builder.addCase(fetchDeleteSharedList.fulfilled, (state, action) => {});
+    builder.addCase(fetchDeleteSharedList.fulfilled, (state, action) => {
+      let sharedLists = [...state.sharedLists];
+      state.sharedLists = sharedLists.filter(
+        (list) => list.id != action.payload
+      );
+    });
   },
 });
 // Action creators are generated for each case reducer function
 export const {
+  getLoginStatus,
   toggleListEdit,
   toggleItemEdit,
   userLogout,

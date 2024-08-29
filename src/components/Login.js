@@ -33,12 +33,16 @@ function Login() {
 
   function handleSubmit(e) {
     e.preventDefault();
+    console.log(loginStatus);
     dispatch(userLogin(loginDetails));
   }
 
   return (
     <div className="Login">
       <div className="login-form-container">
+        <div className="logo-land">
+          Grocery <span>List</span>
+        </div>
         <h2>Welcome back!</h2>
         <form>
           <div className="name">
@@ -79,7 +83,7 @@ function Login() {
         </div>
       </div>
       <div className="login-img">
-        <img src="images/login-register.jpg" alt="login" />
+        <img src="images/shop.jpg" alt="login" />
       </div>
     </div>
   );

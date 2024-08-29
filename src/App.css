@@ -560,12 +560,10 @@ select {
   background-color: white;
   color: #0f0f09;
   margin: 0px;
-
 }
 .AddItem button:hover {
   color: #34632f;
   background-color: white;
-
 }
 
 .Form {
@@ -666,12 +664,18 @@ select {
   height: 100%;
   border-radius: 20px 20px 0px 0px;
 }
+.close {
+  background-color: white;
+  padding: 0px;
+  margin: 5px;
+  border: none;
+  font-size: 1.2rem;
+}
 .delete-update {
   display: flex;
   justify-content: space-between;
   gap: 2px;
 }
-
 
 .item-content {
   width: 100%;
@@ -696,11 +700,10 @@ select {
   height: 70px;
 }
 
-
 .item-info {
   background-color: white;
 }
-.list-items-info h3{
+.list-items-info h3 {
   margin: 0px;
   padding: 0px;
 }
@@ -719,7 +722,6 @@ select {
   border: 1px solid #bbb;
   margin: 0px 5px;
 }
-
 
 .back-add {
   display: flex;
@@ -875,7 +877,6 @@ select {
   margin: 0px 5px;
 }
 
-
 .Dashboard {
   height: calc(100% - 100px);
 
@@ -894,8 +895,6 @@ select {
   flex: 1;
   text-align: center;
   color: #0f0f09;
-
-
 }
 
 .lists-number {
@@ -1136,12 +1135,10 @@ select {
   }
   .ListCard .update-form {
     display: block;
-    
   }
 
   .Item .update-form {
     display: block;
-    
   }
   .update-form {
     width: 75%;
@@ -1150,7 +1147,6 @@ select {
   .update-form input,
   textarea,
   select {
-    
     outline: none;
     border: 1px solid #bbb;
   }
@@ -1178,8 +1174,6 @@ select {
     align-items: center;
     justify-content: center;
   }
-
-
 }
 
 @media (max-width: 375px) {

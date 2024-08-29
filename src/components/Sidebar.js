@@ -3,7 +3,7 @@ import { LuLayoutDashboard } from "react-icons/lu";
 import { CiViewList } from "react-icons/ci";
 import { CiLogout } from "react-icons/ci";
 import { userLogout } from "../app/usersSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 function Sidebar() {
   const dispatch = useDispatch();
@@ -15,12 +15,17 @@ function Sidebar() {
   function handleNavigateHome() {
     navigation("/home");
   }
+  let loginStatus = useSelector((state) => state.users.loginStatus);
+
   function handleUserLogout() {
-    localStorage.clear();
+    //localStorage.clear();
     localStorage.removeItem("loggedUserId");
+    localStorage.removeItem("loginStatus");
     dispatch(userLogout());
+
     navigation("/");
   }
+
   return (
     <div className="Sidebar">
       <h3 className="logo">

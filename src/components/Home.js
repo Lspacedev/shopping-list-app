@@ -3,8 +3,11 @@ import { Outlet } from "react-router-dom";
 
 import Header from "./Header";
 import AddList from "./AddList";
+import { useSelector } from "react-redux";
 
 function Home() {
+  let loginStatus = useSelector((state) => state.users.loginStatus);
+  console.log(loginStatus);
   return (
     <div className="Home">
       <Sidebar />
