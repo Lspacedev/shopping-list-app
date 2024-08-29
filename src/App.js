@@ -25,7 +25,9 @@ import { useSelector } from "react-redux";
 
 function App() {
   const dispatch = useDispatch();
+
   let logStat = useSelector((state) => state.users.loginStatus);
+
   let loginStatus = JSON.parse(localStorage.getItem("loginStatus")) || logStat;
 
   let loggedUserIdToken = useSelector((state) => state.users.loggedUserId);
@@ -51,12 +53,9 @@ function App() {
     dispatch(getLoginStatus(loginStatus));
   }, [dispatch]);
 
-  const user = useSelector((state) => state.users.currentUser);
-
   const submittedSearch =
     useSelector((state) => state.users.submittedSearch?.term) || "";
   const lists = useSelector((state) => state.users.currentUser?.lists) || [];
-
   const sharedLists = useSelector((state) => state.users.sharedLists) || [];
 
   return (

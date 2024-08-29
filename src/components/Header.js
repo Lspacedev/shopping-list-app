@@ -4,7 +4,7 @@ import { IoIosSearch } from "react-icons/io";
 import { useSelector } from "react-redux";
 
 function Header() {
-  const user = useSelector((state) => state.users.user);
+  const user = useSelector((state) => state.users.currentUser);
   //navigation
   const navigation = useNavigate();
   function handleHamBurgerMenu() {
@@ -25,6 +25,7 @@ function Header() {
       return obj.profilePic;
     }
   }
+  console.log(user);
   return (
     <div className="Header">
       <Searchbar />
@@ -46,7 +47,9 @@ function Header() {
             />
           </div>
           <div className="header-profile-pic" onClick={handleNavigateProfile}>
-            {user && <img src={getProfilePic(user)} alt="profile" />}
+            {user && user !== "undefined" && JSON.stringify(user) !== "{}" && (
+              <img src={getProfilePic(user)} alt="profile" />
+            )}
           </div>
         </div>
       </div>

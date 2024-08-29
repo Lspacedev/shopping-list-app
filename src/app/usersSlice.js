@@ -411,7 +411,7 @@ export const usersSlice = createSlice({
       state.loggedUserId = "";
       state.loginStatus = false;
       state.registrationStatus = false;
-      let id = state.currentUser.id;
+      // let id = state.currentUser.id;
       //const userIndex = state.usersArr.findIndex((user) => user.id === id);
 
       //state.usersArr.splice(userIndex, 1);
@@ -483,7 +483,18 @@ export const usersSlice = createSlice({
 
       state.usersArr[userIndex] = state.currentUser;
     });
-    builder.addCase(fetchDeleteUser.fulfilled, (state, action) => {});
+    builder.addCase(fetchDeleteUser.fulfilled, (state, action) => {
+      let id = state.currentUser.id;
+      const userIndex = state.usersArr.findIndex((user) => user.id === id);
+      console.log(id);
+      state.usersArr.splice(userIndex, 1);
+
+      state.currentUser = {};
+      state.user = {};
+      // state.loggedUserId = "";
+      //state.loginStatus = false;
+      // state.registrationStatus = false;
+    });
 
     builder.addCase(userLogin.pending, (state) => {
       state.isLoading = true;
@@ -496,6 +507,7 @@ export const usersSlice = createSlice({
 
         state.loginStatus = true;
         state.currentUser = action.payload;
+        state.user = action.payload;
         state.loggedUserId = action.payload.id;
       }
     });

@@ -31,7 +31,7 @@ function Profile() {
   const cuser = useSelector((state) => state.users.currentUser);
 
   const id = useSelector((state) => state.users.id);
-  console.log(users, user, cuser);
+
   const usersCopy = [...users];
   const isLoading = useSelector((state) => state.users.isLoading);
 

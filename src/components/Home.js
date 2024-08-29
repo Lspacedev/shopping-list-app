@@ -6,8 +6,9 @@ import AddList from "./AddList";
 import { useSelector } from "react-redux";
 
 function Home() {
-  let loginStatus = useSelector((state) => state.users.loginStatus);
-  console.log(loginStatus);
+  const users = useSelector((state) => state.users.usersArr);
+  const user = useSelector((state) => state.users.currentUser);
+  console.log({ users, user });
   return (
     <div className="Home">
       <Sidebar />
