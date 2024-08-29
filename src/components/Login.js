@@ -41,9 +41,7 @@ function Login() {
   return (
     <div className="Login">
       <div className="login-form-container">
-        <div className="logo-land">
-          Grocery <span>List</span>
-        </div>
+    
         <h2>Welcome back!</h2>
         <form>
           <div className="name">
@@ -79,7 +77,7 @@ function Login() {
           ></input>
         </form>
         <div className="login-to-register">
-          Don't have an account?{" "}
+          Don't have an account?
           <p onClick={handleNavigateRegister}>Register here</p>
         </div>
       </div>

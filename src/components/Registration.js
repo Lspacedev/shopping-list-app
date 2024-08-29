@@ -59,9 +59,7 @@ function Registration() {
   return (
     <div className="Registration">
       <div className="register-form-container">
-        <div className="logo-land">
-          Grocery <span>List</span>
-        </div>
+        
         <h2>Create new account</h2>
         <div className="register-to-login">
           Already have an account?

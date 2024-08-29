@@ -48,6 +48,14 @@ function DisplayLists() {
     }
   }, [listInfo]);
 
+  function getItemPic(obj) {
+    if (obj.itemPic === "") {
+      return "/images/bag.png";
+    } else {
+      return obj.itemPic;
+    }
+  }
+
   return (
     <div className="DisplayLists">
       {isLoading === true ? (
@@ -63,7 +71,27 @@ function DisplayLists() {
               {searchResults && searchResults.length !== 0 ? (
                 searchResults.map((item, i) => (
                   <div className="item" key={i}>
-                    <div>{item.itemName}</div>
+                    <div className="item-info">
+                      <div>
+                        <img src={getItemPic(item)} alt="icon" />
+                      </div>
+                      <div>
+                        <h6>Item name</h6>
+                        {item.itemName}
+                      </div>
+                      <div>
+                        <h6>Quantity</h6>
+                        {item.quantity}
+                      </div>
+                      <div>
+                        <h6>Category</h6>
+                        {item.category}
+                      </div>
+                      <div>
+                        <h6>Notes</h6>
+                        {item.notes}
+                      </div>
+                    </div>
                   </div>
                 ))
               ) : typeof lists !== "undefined" && lists.length > 0 ? (

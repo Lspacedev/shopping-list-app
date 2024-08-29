@@ -13,6 +13,7 @@ import bcrypt from "bcryptjs-react";
 import { useEffect } from "react";
 
 function Profile() {
+  const [test, setTest] = useState(false)
   const [userUpdate, setUserUpdate] = useState({
     name: "",
     surname: "",
@@ -89,6 +90,8 @@ function Profile() {
     let userCopy = { ...user };
 
     dispatch(fetchDeleteUser(userCopy.id));
+    console.log(users, user)
+    //setTest(false)
     //logout
     dispatch(userLogout());
     localStorage.removeItem("loggedUserId");

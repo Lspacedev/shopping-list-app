@@ -93,8 +93,8 @@ export const fetchDeleteUser = createAsyncThunk(
     });
 
     //update state
-    const data = await res.json();
-    return data;
+    //const data = await res.json();
+    return id;
   }
 );
 
@@ -359,6 +359,8 @@ export const usersSlice = createSlice({
     loginStatus: false,
     loggedUserId: "",
     submittedSearch: {},
+    submittedSort: {},
+
     searchResults: [],
     id: "",
     user: {},
@@ -417,7 +419,25 @@ export const usersSlice = createSlice({
       //state.usersArr.splice(userIndex, 1);
     },
     submitSearch: (state, action) => {
-      state.submittedSearch = { ...state.submitSearch, term: action.payload };
+      state.submittedSearch = { ...state.submittedSearch, term: action.payload };
+    },
+    submitSort: (state, action) => {
+
+      const listIndex = state.currentUser.lists.findIndex(
+        (list) => list.id == action.payload.listID
+      );
+      let items = [...state.currentUser.lists[listIndex].items];
+  
+      if(action.payload.name === 'name'){
+        items.sort((a, b) => a.itemName > b.itemName ? 1 : -1);
+      }else if (action.payload.name  === 'category'){
+        items.sort((a, b) => a.category > b.category ? 1 : -1);
+
+      }else if (action.payload.name  === 'default') {
+        items.sort((a, b) => a.itemName > b.itemName ? 1 : -1);
+      }
+      state.currentUser.lists[listIndex].items = items;
+     // state.submittedSort = { ...state.submittedSort, term: action.payload };
     },
     setSearchResults: (state, action) => {
       state.searchResults = action.payload;
@@ -484,13 +504,17 @@ export const usersSlice = createSlice({
       state.usersArr[userIndex] = state.currentUser;
     });
     builder.addCase(fetchDeleteUser.fulfilled, (state, action) => {
-      let id = state.currentUser.id;
-      const userIndex = state.usersArr.findIndex((user) => user.id === id);
-      console.log(id);
+      //let id = state.currentUser.id;
+      console.log("running")
+
+      console.log(action.payload)
+      const userIndex = state.usersArr.findIndex((user) => user.id == action.payload);
+      console.log(userIndex)
+
       state.usersArr.splice(userIndex, 1);
 
-      state.currentUser = {};
-      state.user = {};
+      //state.currentUser = {};
+      //state.user = {};
       // state.loggedUserId = "";
       //state.loginStatus = false;
       // state.registrationStatus = false;
@@ -623,6 +647,7 @@ export const {
   toggleItemEdit,
   userLogout,
   submitSearch,
+  submitSort,
   setSearchResults,
   toggleShareTrue,
   toggleShareFalse,

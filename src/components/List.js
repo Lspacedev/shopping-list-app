@@ -5,6 +5,12 @@ import Backarrow from "./Backarrow";
 import { useSelector } from "react-redux";
 import AddItem from "./AddItem";
 import Item from "./Item";
+import {
+  submitSort,
+  setSearchResults,
+} from "../app/usersSlice";
+import { useDispatch } from "react-redux";
+import { useSearchParams } from "react-router-dom";
 
 function List({ handleUpdateList, handleListResubmit, handleDeleteList }) {
   const [obj, setObj] = useState({
@@ -45,20 +51,27 @@ function List({ handleUpdateList, handleListResubmit, handleDeleteList }) {
     currList = curr;
     edit = currList.edit;
   }
+  const [searchParams, setSearchParams] = useSearchParams();
+  const dispatch = useDispatch();
+  function handleSort(listID, name) {
+
+    setSearchParams({ sort: name });
+    dispatch(submitSort({listID,name}));
+  }
 
   return (
     <div className="List">
       <div className="back-add">
         <Backarrow handleBackNavigate={handleBackNavigate} />
         <AddItem listName={currList && currList.listName} />
+        <p>Sort by: <span onClick={()=> handleSort(currList.id,"default")}>Default</span><span onClick={()=> handleSort(currList.id,"name")}>Name</span><span onClick={()=> handleSort(currList.id,"category")}>Category</span></p>
+
       </div>
 
       <div className="list-items">
         <div className="list-items-info">
           <h3>{currList && currList.listName}</h3>
-          <div className="category-text">
-            <p>{currList && currList.category}</p>
-          </div>
+   
         </div>
         <div className="items">
           {currList &&
