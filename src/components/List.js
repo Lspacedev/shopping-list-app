@@ -58,8 +58,10 @@ function List({ handleUpdateList, handleListResubmit, handleDeleteList }) {
   return (
     <div className="List">
       <div className="back-add">
-        <Backarrow handleBackNavigate={handleBackNavigate} />
-        <AddItem listName={currList && currList.listName} />
+        <div className="back-add-div">
+          <Backarrow handleBackNavigate={handleBackNavigate} />
+          <AddItem listName={currList && currList.listName} />
+        </div>
         <p className="sort-p">
           Sort by:{" "}
           <span onClick={() => handleSort(currList.id, "default")}>
