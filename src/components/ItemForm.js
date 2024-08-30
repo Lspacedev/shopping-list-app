@@ -11,6 +11,8 @@ function ItemForm({ listName, toggleClicked }) {
     itemPic: "",
     share: false,
     edit: false,
+    date:
+      new Date().toLocaleTimeString() + " " + new Date().toLocaleDateString(),
   });
   const dispatch = useDispatch();
   const user = useSelector((state) => state.users.currentUser);

@@ -128,7 +128,7 @@ export const userLogin = createAsyncThunk(
           body: JSON.stringify({ userId: id }),
         });
         const data = await res.json();
-        console.log("DATATA", data);
+
         return result;
       }
     } else {
@@ -163,12 +163,11 @@ export const fetchUpdateList = createAsyncThunk(
     let copy = [...current.lists];
 
     let lists = copy.map((item, index) => {
-      console.log(item, obj);
       if (item.listName !== obj.name) {
         // This isn't the item we care about - keep it as-is
         return item;
       }
-      console.log("load");
+
       // Otherwise, this is the one we want - return an updated value
       return obj.item;
     });
@@ -222,7 +221,6 @@ export const fetchAddItem = createAsyncThunk(
     let copy = [...current.lists];
 
     let lists = copy.map((item, index) => {
-      console.log(item, obj);
       if (item.listName !== listName) {
         // This isn't the item we care about - keep it as-is
         return item;
@@ -260,7 +258,6 @@ export const fetchUpdateItem = createAsyncThunk(
         return list;
       } else {
         let newItems = list.items.map((litem) => {
-          console.log(litem, itemName, item);
           if (litem.itemName !== itemName) {
             return litem;
           }
@@ -296,7 +293,6 @@ export const fetchDeleteItem = createAsyncThunk(
     let copy = [...current.lists];
 
     let lists = copy.map((item, index) => {
-      console.log(item, obj);
       if (item.listName !== listName) {
         // This isn't the item we care about - keep it as-is
         return item;
@@ -419,25 +415,28 @@ export const usersSlice = createSlice({
       //state.usersArr.splice(userIndex, 1);
     },
     submitSearch: (state, action) => {
-      state.submittedSearch = { ...state.submittedSearch, term: action.payload };
+      state.submittedSearch = {
+        ...state.submittedSearch,
+        term: action.payload,
+      };
     },
     submitSort: (state, action) => {
-
       const listIndex = state.currentUser.lists.findIndex(
         (list) => list.id == action.payload.listID
       );
       let items = [...state.currentUser.lists[listIndex].items];
-  
-      if(action.payload.name === 'name'){
-        items.sort((a, b) => a.itemName > b.itemName ? 1 : -1);
-      }else if (action.payload.name  === 'category'){
-        items.sort((a, b) => a.category > b.category ? 1 : -1);
 
-      }else if (action.payload.name  === 'default') {
-        items.sort((a, b) => a.itemName > b.itemName ? 1 : -1);
+      if (action.payload.name === "name") {
+        items.sort((a, b) => (a.itemName > b.itemName ? 1 : -1));
+      } else if (action.payload.name === "category") {
+        items.sort((a, b) => (a.category > b.category ? 1 : -1));
+      } else if (action.payload.name === "default") {
+        items.sort((a, b) => (a.itemName > b.itemName ? 1 : -1));
+      } else if (action.payload.name === "date") {
+        items.sort((a, b) => (a.date > b.date ? 1 : -1));
       }
       state.currentUser.lists[listIndex].items = items;
-     // state.submittedSort = { ...state.submittedSort, term: action.payload };
+      // state.submittedSort = { ...state.submittedSort, term: action.payload };
     },
     setSearchResults: (state, action) => {
       state.searchResults = action.payload;
@@ -505,11 +504,10 @@ export const usersSlice = createSlice({
     });
     builder.addCase(fetchDeleteUser.fulfilled, (state, action) => {
       //let id = state.currentUser.id;
-      console.log("running")
 
-      console.log(action.payload)
-      const userIndex = state.usersArr.findIndex((user) => user.id == action.payload);
-      console.log(userIndex)
+      const userIndex = state.usersArr.findIndex(
+        (user) => user.id == action.payload
+      );
 
       state.usersArr.splice(userIndex, 1);
 

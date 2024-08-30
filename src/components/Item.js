@@ -87,6 +87,7 @@ function Item({ item, listName, itemName, index }) {
           obj.category === "" ? item.category : obj.category;
         newItemObj.notes = obj.notes === "" ? item.notes : obj.notes;
         newItemObj.itemPic = obj.itemPic === "" ? item.itemPic : obj.itemPic;
+        newItemObj.date = item.date;
 
         // items.edit = true;
         if (
@@ -217,9 +218,13 @@ function Item({ item, listName, itemName, index }) {
               <h6>Category</h6>
               {item.category}
             </div>
-            <div>
+            <div className="notes">
               <h6>Notes</h6>
-              {item.notes}
+              <div>{item.notes}</div>
+            </div>
+            <div className="item-date">
+              <h6>Date</h6>
+              <div>{item.date}</div>
             </div>
           </div>
         )}

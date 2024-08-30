@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useOutletContext } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import Backarrow from "./Backarrow";
+import { PiListBulletsThin } from "react-icons/pi";
 
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -100,7 +101,7 @@ function ListCard({ list, handleNavigateList, listName, index }) {
     dispatch(fetchDeleteSharedList(obj));
     alert(`${list.listName} has been unshared.`);
   }
-  
+
   return (
     <div className="ListCard">
       <div className="list-content">
@@ -169,6 +170,8 @@ function ListCard({ list, handleNavigateList, listName, index }) {
             className="list-info"
             onClick={() => handleNavigateList(listName, index)}
           >
+            <PiListBulletsThin style={{ fontSize: "1.5rem" }} />
+
             <div>
               <h6>List name</h6>
               {list.listName}
@@ -199,7 +202,7 @@ function ListCard({ list, handleNavigateList, listName, index }) {
             {list.edit ? (
               <div className="update-btn">Update </div>
             ) : (
-              <div>edit</div>
+              <div>Edit</div>
             )}
           </button>
           <button

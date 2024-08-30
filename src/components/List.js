@@ -69,6 +69,7 @@ function List({ handleUpdateList, handleListResubmit, handleDeleteList }) {
           <span onClick={() => handleSort(currList.id, "category")}>
             Category
           </span>
+          <span onClick={() => handleSort(currList.id, "date")}>Date</span>
         </p>
       </div>
 

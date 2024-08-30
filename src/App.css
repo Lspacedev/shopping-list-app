@@ -231,7 +231,7 @@ select {
   outline: none;
   border: 1px solid #bbb;
 
-  margin: 15px 0;
+  margin: 15px 0px 5px 0px;
   padding: 5px 0px;
   width: 100%;
   outline: none;
@@ -488,14 +488,21 @@ select {
 
   display: flex;
   border-radius: 40px;
-  border: 1px solid #bbb;
+  border: 1px solid #d3d3d3;
 }
 
 .search-div input[type="search"] {
   flex: 6;
   margin: 0px;
+  padding: 0px;
   border: none;
 }
+.search-div input[type="search"]:focus {
+  outline: none;
+  border: 1px solid #59594a;
+  padding: 0px;
+}
+
 #search-icon-div {
   flex: 1;
   height: 100%;
@@ -642,7 +649,7 @@ select {
   width: 100%;
   height: 50px;
   margin: 5px 0px;
-  padding: 0px;
+  padding: 15px 0px;
   word-wrap: break-word;
   background-color: white;
 }
@@ -652,17 +659,30 @@ select {
   display: flex;
   align-items: center;
   gap: 25px;
+  margin: auto;
+  box-shadow: 1px 1px 5px #e4e4e4;
+  padding: 5px;
+  border-radius: 5px;
+  border-left: 2px solid #34632f;
 }
 
 .list-info {
   width: 100%;
   display: flex;
   justify-content: space-evenly;
+  align-items: center;
   cursor: pointer;
+  color: #0f0f09;
+}
+.list-content:hover {
+  box-shadow: 1px 1px 5px #dadada;
+  border-left: 2px solid #184413;
 }
 .list-info h6 {
   margin: 0px;
   padding: 0px;
+  color: #2e2e26;
+  font-weight: 600;
 }
 
 .ListCard {
@@ -683,7 +703,9 @@ select {
 }
 .sort-p {
   display: flex;
+  flex-wrap: wrap;
   gap: 5px;
+  font-size: 0.8rem;
   color: #3f3f35;
 }
 .sort-p span {
@@ -694,21 +716,26 @@ select {
   cursor: pointer;
 }
 .item-content {
-  width: 100%;
+  width: 95%;
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 25px;
+  margin: 15px auto;
+  box-shadow: 1px 1px 5px #e4e4e4;
+  border-radius: 5px;
 }
 
 .item-info {
   width: 100%;
   display: flex;
   justify-content: space-evenly;
+  gap: 1px;
 }
 .item-info h6 {
   margin: 0px;
   padding: 0px;
+  font-weight: 600;
 }
 
 .item-info img {
@@ -719,9 +746,13 @@ select {
 .item-info {
   background-color: white;
 }
+.item-info div {
+  word-wrap: break-word;
+}
 .list-items-info h3 {
   margin: 0px;
   padding: 0px;
+  font-weight: 500;
 }
 .Item .update-form {
   margin: 0px;
@@ -740,10 +771,13 @@ select {
   border-right: none;
   border-bottom: 1px solid #bbb;
 }
-
+.Item .update-form input:focus {
+  border-bottom: 1px solid #3f3f35;
+}
 .back-add {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   padding: 0px;
 }
 
@@ -787,9 +821,10 @@ select {
 }
 .back {
   text-align: start;
-  margin: 0px;
+  margin: 0px 0px 0px 25px;
   cursor: pointer;
   font-size: 1.4rem;
+  color: #0f0f09;
 }
 .back:hover {
   color: #34632f;
@@ -897,7 +932,9 @@ select {
   border-bottom: 1px solid #bbb;
   margin: 0px 0px;
 }
-
+.ListCard .update-form input:focus {
+  border-bottom: 1px solid #3f3f35;
+}
 .Dashboard {
   height: calc(100% - 100px);
 
@@ -905,7 +942,9 @@ select {
   gap: 25px;
   padding: 5px;
 }
-
+.Dashboard h4 {
+  color: #1e2f23;
+}
 .lists-count {
   flex: 1;
   text-align: center;
@@ -917,7 +956,13 @@ select {
   text-align: center;
   color: #0f0f09;
 }
+.sharedList p {
+  margin: 0px;
+}
 
+.sharedList h5 {
+  margin: 0px;
+}
 .lists-number {
   width: 200px;
   padding: 0px 50px;
@@ -972,7 +1017,13 @@ select {
   margin: 0px;
   padding: 0px;
 }
+.error {
+  padding: 0px;
+  margin: 0px;
 
+  font-size: 0.8rem;
+  color: #900;
+}
 @media (max-width: 1200px) {
   .contact-details {
     flex-direction: column;
@@ -1035,7 +1086,9 @@ select {
   .Sidebar.active {
     left: 0;
   }
-
+  .hamburger-menu div {
+    background-color: #3f3f35;
+  }
   #add-btn-long-text {
     display: none;
   }
@@ -1043,6 +1096,9 @@ select {
     display: block;
     padding: 0px;
     margin: 0px;
+  }
+  .Add-div button:hover {
+    background-color: white;
   }
   .Login {
     flex-direction: column-reverse;
@@ -1165,12 +1221,6 @@ select {
     width: 75%;
   }
 
-  .update-form input,
-  textarea,
-  select {
-    outline: none;
-    border: 1px solid #bbb;
-  }
   .update-form div label {
     display: flex;
     flex-direction: column;
@@ -1183,6 +1233,7 @@ select {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    gap: 5px;
   }
 
   .delete-update {
@@ -1203,5 +1254,16 @@ select {
   }
   .login-register {
     gap: 5px;
+  }
+  .item-date div {
+    font-size: 0.6rem;
+  }
+  .item-info img {
+    width: 50px;
+    height: 50px;
+  }
+  .notes div {
+    word-break: break-all;
+    font-size: 0.8rem;
   }
 }
