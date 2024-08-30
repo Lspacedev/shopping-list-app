@@ -51,7 +51,6 @@ function Item({ item, listName, itemName, index }) {
   }
 
   function handleUpdateItemEdit(list, item) {
-    
     dispatch(toggleItemEdit({ listName: list, itemName: item }));
   }
 
@@ -126,7 +125,7 @@ function Item({ item, listName, itemName, index }) {
       return obj.itemPic;
     }
   }
- 
+
   return (
     <div className="Item">
       <div className="item-content">
@@ -245,13 +244,6 @@ function Item({ item, listName, itemName, index }) {
             Delete
           </button>
         </div>
-        {/*<button onClick={() => handleUpdateItemEdit(listName, itemName)}>
-          upda
-        </button>
-        <button onClick={() => handleUpdateitem(listName, itemName, obj)}>
-          sub
-        </button>
-        <button onClick={() => handleDeleteItem(itemName)}>delete</button>*/}
       </div>
     </div>
   );

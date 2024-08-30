@@ -560,6 +560,7 @@ select {
   background-color: white;
   color: #0f0f09;
   margin: 0px;
+  border: 1px solid #3f3f35;
 }
 .AddItem button:hover {
   color: #34632f;
@@ -636,7 +637,6 @@ select {
 
 .no-lists {
   margin: 0px auto;
-
 }
 .DisplayLists .item {
   width: 100%;
@@ -681,7 +681,18 @@ select {
   justify-content: space-between;
   gap: 2px;
 }
-
+.sort-p {
+  display: flex;
+  gap: 5px;
+  color: #3f3f35;
+}
+.sort-p span {
+  color: #59594a;
+}
+.sort-p span:hover {
+  color: #979797;
+  cursor: pointer;
+}
 .item-content {
   width: 100%;
   display: flex;
