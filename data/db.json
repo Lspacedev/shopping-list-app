@@ -7,46 +7,6 @@
     }
   ],
   "sharedLists": [
-    {
-      "id": "1",
-      "listName": "eat",
-      "quantity": "",
-      "category": "",
-      "notes": "",
-      "items": [
-        {
-          "itemName": "item1",
-          "quantity": "",
-          "category": "",
-          "notes": "",
-          "itemPic": "",
-          "share": false,
-          "edit": false,
-          "date": "17:27:52 30/08/2024"
-        },
-        {
-          "itemName": "item2",
-          "quantity": "6",
-          "category": "dinner",
-          "notes": "nbbbn",
-          "itemPic": "",
-          "share": false,
-          "edit": false,
-          "date": "17:28:04 30/08/2024"
-        },
-        {
-          "itemName": "a",
-          "quantity": "",
-          "category": "aa",
-          "notes": "",
-          "itemPic": "",
-          "share": false,
-          "edit": false,
-          "date": "17:28:33 30/08/2024"
-        }
-      ],
-      "share": false,
-      "edit": false
-    }
+    
   ]
 }
