@@ -633,6 +633,11 @@ select {
   flex-wrap: wrap;
   gap: 5px;
 }
+
+.no-lists {
+  margin: 0px auto;
+
+}
 .DisplayLists .item {
   width: 100%;
   height: 50px;
@@ -643,9 +648,8 @@ select {
 }
 
 .list-content {
-  width: 100%;
+  width: 95%;
   display: flex;
-  justify-content: space-between;
   align-items: center;
   gap: 25px;
 }
@@ -720,8 +724,10 @@ textarea,
 select {
   width: 100%;
   outline: none;
-  border: 1px solid #bbb;
-  margin: 0px 5px;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom: 1px solid #bbb;
 }
 
 .back-add {
@@ -874,8 +880,11 @@ textarea,
 select {
   width: 100%;
   outline: none;
-  border: 1px solid #bbb;
-  margin: 0px 5px;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom: 1px solid #bbb;
+  margin: 0px 0px;
 }
 
 .Dashboard {

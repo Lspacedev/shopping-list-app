@@ -14,9 +14,7 @@ function Home() {
       <Sidebar />
       <div className="Main">
         <Header
-        //handleSearchSubmit={handleSearchSubmit}
-        //handleSearchChange={handleSearchChange}
-        //searchInput={searchInput}
+     
         />
         <div className="cat-add">
           <AddList />

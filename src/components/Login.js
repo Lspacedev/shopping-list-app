@@ -34,7 +34,6 @@ function Login() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    console.log(loginStatus);
     dispatch(userLogin(loginDetails));
   }
 

@@ -100,7 +100,7 @@ function ListCard({ list, handleNavigateList, listName, index }) {
     dispatch(fetchDeleteSharedList(obj));
     alert(`${list.listName} has been unshared.`);
   }
-  console.log(list);
+  
   return (
     <div className="ListCard">
       <div className="list-content">

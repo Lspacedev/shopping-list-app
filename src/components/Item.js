@@ -51,7 +51,7 @@ function Item({ item, listName, itemName, index }) {
   }
 
   function handleUpdateItemEdit(list, item) {
-    console.log({ list, item });
+    
     dispatch(toggleItemEdit({ listName: list, itemName: item }));
   }
 
@@ -126,7 +126,7 @@ function Item({ item, listName, itemName, index }) {
       return obj.itemPic;
     }
   }
-  console.log(item.edit);
+ 
   return (
     <div className="Item">
       <div className="item-content">

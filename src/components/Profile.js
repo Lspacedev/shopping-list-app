@@ -90,7 +90,6 @@ function Profile() {
     let userCopy = { ...user };
 
     dispatch(fetchDeleteUser(userCopy.id));
-    console.log(users, user)
     //setTest(false)
     //logout
     dispatch(userLogout());

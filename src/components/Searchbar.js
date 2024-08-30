@@ -41,7 +41,6 @@ function Searchbar({}) {
 
   const lists = useSelector((state) => state.users.currentUser?.lists) || [];
   const isLoading = useSelector((state) => state.users.isLoading);
-  console.log(searchTerm);
 
   useEffect(() => {
     if (typeof lists !== "undefined" && lists.length > 0) {

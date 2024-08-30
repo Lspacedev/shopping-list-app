@@ -107,7 +107,7 @@ function DisplayLists() {
                   </div>
                 ))
               ) : (
-                <div>No lists added</div>
+                <div className="no-lists">No lists added</div>
               )}
             </div>
           )}

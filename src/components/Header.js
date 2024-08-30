@@ -25,7 +25,7 @@ function Header() {
       return obj.profilePic;
     }
   }
-  console.log(user);
+  
   return (
     <div className="Header">
       <Searchbar />
