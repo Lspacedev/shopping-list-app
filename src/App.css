@@ -780,7 +780,10 @@ select {
   align-items: center;
   padding: 0px;
 }
-
+.back-add-div {
+  display: flex;
+  gap: 45px;
+}
 .ListCard .img {
   height: 70%;
   background-color: gray;
