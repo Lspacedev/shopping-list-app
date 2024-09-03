@@ -3,8 +3,19 @@
   "loggedUserID": [
     {
       "id": "0",
-      "userId": "1"
+      "userId": "0"
     }
   ],
-  "sharedLists": []
+  "sharedLists": [
+    {
+      "id": "1",
+      "listName": "test",
+      "quantity": "5",
+      "category": "",
+      "notes": "",
+      "items": [],
+      "share": false,
+      "edit": false
+    }
+  ]
 }

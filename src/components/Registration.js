@@ -24,12 +24,12 @@ function Registration() {
 
   //navigation
   const navigation = useNavigate();
-  useEffect(() => {
+  /*useEffect(() => {
     if (registrationStatus) {
       //on success redirect user
       navigation("/login");
     }
-  }, [navigation, registrationStatus]);
+  }, [navigation, registrationStatus]);*/
   function handleNavigateLogin() {
     navigation("/login");
   }
@@ -62,7 +62,8 @@ function Registration() {
 
     const isSurnameEmpty = surname.value.trim() !== "";
 
-    const isPasswordValid = password.value.trim() !== "" && password.value >= 6;
+    const isPasswordValid =
+      password.value.trim() !== "" && password.value.length >= 6;
 
     const isEmailValid = email.value.trim() !== "" && email.validity.valid;
 
@@ -71,6 +72,7 @@ function Registration() {
 
     if (isFormValid) {
       dispatch(fetchAddUser(userDetails));
+      navigation("/login");
     } else {
       if (name.value.trim() === "") {
         const name_span = document.querySelector(".name > span.error");
@@ -87,7 +89,7 @@ function Registration() {
 
         password_span.innerText = "Password cannot be empty";
       }
-      if (password.value.length >= 6) {
+      if (password.value.length < 6) {
         const password_span = document.querySelector(".password > span.error");
 
         password_span.innerText =

@@ -1,5 +1,8 @@
-Run the json server:
+Start the project by running the json server:
 npx json-server --watch ./data/db.json --port 8000
+
+Run the react project:
+npm run start
 
 Image and Icon credits:
 <a href="https://www.flaticon.com/free-icons/groceries" title="groceries icons">Groceries icons created by justicon - Flaticon</a>

@@ -40,7 +40,6 @@ function Login() {
   return (
     <div className="Login">
       <div className="login-form-container">
-    
         <h2>Welcome back!</h2>
         <form>
           <div className="name">
@@ -60,7 +59,7 @@ function Login() {
             <label htmlFor="password">
               Password:
               <input
-                type="text"
+                type="password"
                 id="password"
                 name="password"
                 onChange={(e) => handleChange(e)}
