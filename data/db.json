@@ -7,6 +7,15 @@
     }
   ],
   "sharedLists": [
-    
+    {
+      "id": "1",
+      "listName": "test",
+      "quantity": "",
+      "category": "",
+      "notes": "",
+      "items": [],
+      "share": false,
+      "edit": false
+    }
   ]
 }
