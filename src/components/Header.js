@@ -1,5 +1,5 @@
 import Searchbar from "./Searchbar";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { IoIosSearch } from "react-icons/io";
 import { useSelector } from "react-redux";
 
@@ -7,6 +7,9 @@ function Header() {
   const user = useSelector((state) => state.users.currentUser);
   //navigation
   const navigation = useNavigate();
+  const { list_name } = useParams();
+  const { pathname } = useLocation();
+
   function handleHamBurgerMenu() {
     const sidebar = document.querySelector(".Sidebar");
     sidebar.classList.toggle("active");
@@ -25,10 +28,13 @@ function Header() {
       return obj.profilePic;
     }
   }
-  
   return (
     <div className="Header">
-      <Searchbar />
+      {typeof list_name === "undefined" && pathname !== "/home" ? (
+        <Searchbar />
+      ) : (
+        <div className="search-placeholder"></div>
+      )}
       <div className="ham-profile">
         <div className="hamburger-menu" onClick={handleHamBurgerMenu}>
           <div></div>

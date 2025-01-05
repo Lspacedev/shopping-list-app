@@ -6,24 +6,42 @@ import ListCard from "./ListCard";
 import useLocalStorage from "./useLocalStorage";
 import { useDispatch, useSelector } from "react-redux";
 import Item from "./Item";
-
+import { setSearchResults } from "../app/usersSlice";
 function DisplayLists() {
   const [listInfo, setListInfo] = useLocalStorage("listObj", {
     name: "",
     index: null,
   });
+  const [notFound, setNotFound] = useState(false);
   const isLoading = useSelector((state) => state.users.isLoading);
   const getLists = useSelector((state) => state.users.currentUser?.lists) || [];
   const lists = isLoading === true ? [] : getLists;
 
   const searchResults = useSelector((state) => state.users.searchResults);
-
+  const submittedSearch =
+    useSelector((state) => state.users.submittedSearch?.term) || "";
   const { list_name } = useParams();
 
   const user = useSelector((state) => state.users.user);
 
   const navigation = useNavigate();
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (submittedSearch && submittedSearch.length === 0) {
+      dispatch(setSearchResults([]));
+    }
+    if (
+      submittedSearch &&
+      submittedSearch.length > 0 &&
+      searchResults &&
+      searchResults.length === 0
+    ) {
+      setNotFound(true);
+    } else {
+      setNotFound(false);
+    }
+  }, [submittedSearch, searchResults]);
 
   //function to store clicked listcard information to use in navigating to list subpage
   function handleNavigateList(name, index) {
@@ -94,6 +112,8 @@ function DisplayLists() {
                     </div>
                   </div>
                 ))
+              ) : searchResults.length === 0 && notFound === true ? (
+                <div style={{ margin: "auto" }}>No results</div>
               ) : typeof lists !== "undefined" && lists.length > 0 ? (
                 lists.map((list, i) => (
                   <div className="item" key={i}>

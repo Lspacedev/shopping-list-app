@@ -11,9 +11,10 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import bcrypt from "bcryptjs-react";
 import { useEffect } from "react";
+import { IoCloseOutline } from "react-icons/io5";
 
 function Profile() {
-  const [test, setTest] = useState(false)
+  const [test, setTest] = useState(false);
   const [userUpdate, setUserUpdate] = useState({
     name: "",
     surname: "",
@@ -31,6 +32,16 @@ function Profile() {
   const user = useSelector((state) => state.users.currentUser);
   const cuser = useSelector((state) => state.users.currentUser);
 
+  useEffect(() => {
+    if (typeof user !== "undefined") {
+      setUserUpdate((prev) => ({ ...prev, name: user.name }));
+      setUserUpdate((prev) => ({ ...prev, surname: user.surname }));
+
+      setUserUpdate((prev) => ({ ...prev, email: user.email }));
+
+      setUserUpdate((prev) => ({ ...prev, cell: user.cell }));
+    }
+  }, [user]);
   const id = useSelector((state) => state.users.id);
 
   const usersCopy = [...users];
@@ -147,7 +158,7 @@ function Profile() {
                   />
                 </label>
                 <button className="close" onClick={() => setUpdate(false)}>
-                  x
+                  <IoCloseOutline />
                 </button>
               </div>
             ) : (
@@ -210,29 +221,13 @@ function Profile() {
             </div>
 
             <div className="user-pass">
-              <div className="user">
-                {/*<h4>Username:</h4>
-              {update ? (
-                <div>
-                  <div className="name">
-                    <input
-                      type="text"
-                      id="username"
-                      name="username"
-                      onChange={(e) => handleChange(e)}
-                      value={userUpdate.username}
-                    />
-                  </div>
-                </div>
-              ) : (
-                <div>{username}</div>
-              )}*/}
-              </div>
+              <div className="user"></div>
 
               <div className="pass">
-                <h4>Password:</h4>
                 {update ? (
                   <div>
+                    <h4>New Password:</h4>
+
                     <div className="password">
                       <input
                         type="text"
@@ -244,7 +239,7 @@ function Profile() {
                     </div>
                   </div>
                 ) : (
-                  <div className="password-text">{user && user.password}</div>
+                  <div className="password-text"></div>
                 )}
               </div>
             </div>

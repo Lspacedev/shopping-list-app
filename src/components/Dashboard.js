@@ -16,8 +16,8 @@ class Dashboard extends React.Component {
 
           {this.props.sharedLists && this.props.sharedLists.length > 0 ? (
             this.props.sharedLists.map((list, i) => (
-              <div className="sharedList">
-                <h5 key={i}>{list.listName}</h5>
+              <div className="sharedList" key={i}>
+                <h5>{list.listName}</h5>
                 <div>
                   {list.items.map((item, k) => (
                     <p>

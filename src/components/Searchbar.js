@@ -17,7 +17,6 @@ function Searchbar({}) {
   const searchTerm = searchParams.get("search") || "";
   const dispatch = useDispatch();
 
-
   function handleSearchChange(e) {
     e.preventDefault();
     if (e.target.value.length === 0) {
@@ -50,7 +49,6 @@ function Searchbar({}) {
 
   useEffect(() => {
     if (submittedSearch.length > 0) {
-
       let items = [];
       let filteredLists = lists.filter((list) => {
         let filteredItems = list.items.filter((item) => {
@@ -69,7 +67,7 @@ function Searchbar({}) {
     return () => {
       //setSearchResults([]);
     };
-  }, [submittedSearch,submittedSort, dispatch]);
+  }, [submittedSearch, submittedSort, dispatch]);
 
   return (
     <div className="search-div">
@@ -84,7 +82,7 @@ function Searchbar({}) {
       </div>
       <input
         type="search"
-        placeholder="Search recipes"
+        placeholder="Search list items"
         onChange={handleSearchChange}
         value={searchTerm}
       />

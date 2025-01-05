@@ -33,19 +33,18 @@ function Sidebar() {
       </h3>
       <div className="sidebar-links">
         <div onClick={handleNavigateHome}>
-          <LuLayoutDashboard />
-          <p>Dashboard</p>
+          <LuLayoutDashboard className="icon" />
+          <p className="text">Dashboard</p>
         </div>
 
         <div onClick={handleNavigateRecipes}>
-          <CiViewList />
-          <p>Lists</p>
+          <CiViewList className="icon" />
+          <p className="text">Lists</p>
         </div>
-      </div>
-
-      <div className="logout" onClick={() => handleUserLogout()}>
-        <CiLogout />
-        Logout
+        <div onClick={() => handleUserLogout()}>
+          <CiLogout className="icon" />
+          <p className="text">Logout</p>
+        </div>
       </div>
     </div>
   );

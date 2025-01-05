@@ -3,6 +3,7 @@ import { useOutletContext } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import Backarrow from "./Backarrow";
 import { PiListBulletsThin } from "react-icons/pi";
+import { IoCloseOutline } from "react-icons/io5";
 
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -19,10 +20,10 @@ function ListCard({ list, handleNavigateList, listName, index }) {
   const [isShared, setIsShared] = useState(false);
   const user = useSelector((state) => state.users.currentUser);
   const [obj, setObj] = useState({
-    listName: "",
-    quantity: "",
-    category: "",
-    notes: "",
+    listName: list.listName,
+    quantity: list.quantity,
+    category: list.category,
+    notes: list.notes,
     items: [],
     share: false,
     edit: false,
@@ -114,6 +115,7 @@ function ListCard({ list, handleNavigateList, listName, index }) {
                   type="text"
                   id="list-name"
                   name="listName"
+                  maxLength="15"
                   onChange={(e) => handleChange(e)}
                   value={obj.listName}
                   required
@@ -125,9 +127,10 @@ function ListCard({ list, handleNavigateList, listName, index }) {
               <label htmlFor="quantity">
                 Quantity
                 <input
-                  type="text"
+                  type="number"
                   id="quantity"
                   name="quantity"
+                  min="1"
                   onChange={(e) => handleChange(e)}
                   value={obj.quantity}
                 />
@@ -138,8 +141,10 @@ function ListCard({ list, handleNavigateList, listName, index }) {
               <label htmlFor="category">
                 Category
                 <input
+                  type="text"
                   id="category"
                   name="category"
+                  maxLength="15"
                   onChange={(e) => handleChange(e)}
                   value={obj.category}
                 />
@@ -153,6 +158,7 @@ function ListCard({ list, handleNavigateList, listName, index }) {
                   type="text"
                   id="notes"
                   name="notes"
+                  maxLength="25"
                   onChange={(e) => handleChange(e)}
                   value={obj.notes}
                 />
@@ -162,7 +168,7 @@ function ListCard({ list, handleNavigateList, listName, index }) {
               className="close"
               onClick={() => handleUpdateListEdit(list.listName)}
             >
-              x
+              <IoCloseOutline />
             </button>
           </div>
         ) : (
@@ -170,21 +176,23 @@ function ListCard({ list, handleNavigateList, listName, index }) {
             className="list-info"
             onClick={() => handleNavigateList(listName, index)}
           >
-            <PiListBulletsThin style={{ fontSize: "1.5rem" }} />
+            <div className="icon">
+              <PiListBulletsThin style={{ fontSize: "1.5rem" }} />
+            </div>
 
-            <div>
+            <div className="col">
               <h6>List name</h6>
               {list.listName}
             </div>
-            <div>
+            <div className="col">
               <h6>Quantity</h6>
               {list.quantity}
             </div>
-            <div>
+            <div className="col">
               <h6>Category</h6>
               {list.category}
             </div>
-            <div>
+            <div className="col">
               <h6>Notes</h6>
               {list.notes}
             </div>

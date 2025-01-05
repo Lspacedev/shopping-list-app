@@ -3,15 +3,15 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUpdateItem, fetchDeleteItem } from "../app/usersSlice";
 import { toggleItemEdit } from "../app/usersSlice";
-
+import { IoCloseOutline } from "react-icons/io5";
 function Item({ item, listName, itemName, index }) {
   const user = useSelector((state) => state.users.currentUser);
 
   const [obj, setObj] = useState({
-    itemName: "",
-    quantity: "",
-    category: "",
-    notes: "",
+    itemName: item.itemName,
+    quantity: item.quantity,
+    category: item.category,
+    notes: item.notes,
     itemPic: "",
     items: [],
     edit: false,
@@ -139,6 +139,7 @@ function Item({ item, listName, itemName, index }) {
                   type="text"
                   id="item-name"
                   name="itemName"
+                  maxLength="15"
                   onChange={(e) => handleChange(e)}
                   value={obj.itemName}
                   required
@@ -150,9 +151,10 @@ function Item({ item, listName, itemName, index }) {
               <label htmlFor="quantity">
                 Quantity
                 <input
-                  type="text"
+                  type="number"
                   id="quantity"
                   name="quantity"
+                  min="1"
                   onChange={(e) => handleChange(e)}
                   value={obj.quantity}
                 />
@@ -163,8 +165,10 @@ function Item({ item, listName, itemName, index }) {
               <label htmlFor="category">
                 Category
                 <input
+                  type="text"
                   id="category"
                   name="category"
+                  maxLength="15"
                   onChange={(e) => handleChange(e)}
                   value={obj.category}
                 />
@@ -178,6 +182,7 @@ function Item({ item, listName, itemName, index }) {
                   type="text"
                   id="notes"
                   name="notes"
+                  maxLength="25"
                   onChange={(e) => handleChange(e)}
                   value={obj.notes}
                 />
@@ -198,31 +203,31 @@ function Item({ item, listName, itemName, index }) {
               className="close"
               onClick={() => handleUpdateItemEdit(listName, itemName)}
             >
-              x
+              <IoCloseOutline />
             </button>
           </div>
         ) : (
           <div className="item-info">
-            <div>
+            <div className="icon">
               <img src={getItemPic(item)} alt="icon" />
             </div>
-            <div>
+            <div className="col">
               <h6>Item name</h6>
               {item.itemName}
             </div>
-            <div>
+            <div className="col">
               <h6>Quantity</h6>
               {item.quantity}
             </div>
-            <div>
+            <div className="col">
               <h6>Category</h6>
               {item.category}
             </div>
-            <div className="notes">
+            <div className="notes col">
               <h6>Notes</h6>
               <div>{item.notes}</div>
             </div>
-            <div className="item-date">
+            <div className="item-date col">
               <h6>Date</h6>
               <div>{item.date}</div>
             </div>

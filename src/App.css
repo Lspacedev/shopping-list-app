@@ -306,6 +306,7 @@ select {
 }
 
 .header-profile-pic {
+  text-align: end;
   cursor: pointer;
 }
 
@@ -397,8 +398,35 @@ select {
   background-color: #0f0f09;
 }
 
+.Sidebar .sidebar-links div {
+  margin: 5px 25px;
+
+  cursor: pointer;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+
+  color: rgb(207, 207, 207);
+}
+
+.sidebar-links .icon {
+  flex: 1;
+  font-size: 32px;
+}
+
+.sidebar-links .text {
+  flex: 2;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.sidebar-links div:hover {
+  background-color: #184413;
+  color: white;
+  border-radius: 15px;
+}
+
 .logo {
-  flex: 30%;
   font-size: 1.7rem;
   font-weight: bold;
   color: #34632f;
@@ -413,51 +441,6 @@ select {
   flex: 10%;
 }
 
-.logout {
-  cursor: pointer;
-  color: #59594a;
-  font-size: 1.1rem;
-  margin: 0px;
-  padding: 0px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.logout:hover {
-  background-color: #34632f;
-  border-radius: 0px 15px 15px 0px;
-  color: white;
-}
-.sidebar-links {
-  flex: 60%;
-  display: flex;
-  flex-direction: column;
-  gap: 25px;
-}
-
-.sidebar-links div {
-  cursor: pointer;
-  color: #59594a;
-  font-size: 1.1rem;
-  margin: 0px;
-  padding: 0px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.sidebar-links p {
-  width: 100px;
-  margin: 0px;
-  padding: 0px;
-  text-align: start;
-}
-
-.sidebar-links div:hover {
-  background-color: #34632f;
-  border-radius: 0px 15px 15px 0px;
-  color: white;
-}
 /*Header*/
 .Header {
   display: flex;
@@ -477,6 +460,7 @@ select {
   background-color: black;
   margin: 5px 0;
 }
+
 .profile-link {
 }
 
@@ -489,6 +473,9 @@ select {
   display: flex;
   border-radius: 40px;
   border: 1px solid #d3d3d3;
+}
+.search-placeholder {
+  flex: 90%;
 }
 
 .search-div input[type="search"] {
@@ -656,24 +643,33 @@ select {
 
 .list-content {
   width: 95%;
-  display: flex;
-  align-items: center;
-  gap: 25px;
+
   margin: auto;
   box-shadow: 1px 1px 5px #e4e4e4;
   padding: 5px;
   border-radius: 5px;
   border-left: 2px solid #34632f;
+  display: flex;
 }
 
 .list-info {
-  width: 100%;
+  flex: 4;
   display: flex;
   justify-content: space-evenly;
   align-items: center;
   cursor: pointer;
   color: #0f0f09;
 }
+
+.list-info .icon {
+  flex: 2;
+  display: flex;
+  justify-content: flex-start;
+}
+.list-info .col {
+  flex: 3;
+}
+
 .list-content:hover {
   box-shadow: 1px 1px 5px #dadada;
   border-left: 2px solid #184413;
@@ -697,6 +693,7 @@ select {
   font-size: 1.2rem;
 }
 .delete-update {
+  flex: 1;
   display: flex;
   justify-content: space-between;
   gap: 2px;
@@ -718,19 +715,18 @@ select {
 .item-content {
   width: 95%;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 25px;
   margin: 15px auto;
   box-shadow: 1px 1px 5px #e4e4e4;
   border-radius: 5px;
 }
 
 .item-info {
-  width: 100%;
+  flex: 4;
   display: flex;
   justify-content: space-evenly;
-  gap: 1px;
+  align-items: center;
+  cursor: pointer;
+  color: #0f0f09;
 }
 .item-info h6 {
   margin: 0px;
@@ -743,12 +739,15 @@ select {
   height: 70px;
 }
 
-.item-info {
-  background-color: white;
+.item-info .icon {
+  flex: 2;
+  display: flex;
+  justify-content: flex-start;
 }
-.item-info div {
-  word-wrap: break-word;
+.item-info .col {
+  flex: 3;
 }
+
 .list-items-info h3 {
   margin: 0px;
   padding: 0px;
@@ -770,6 +769,7 @@ select {
   border-left: none;
   border-right: none;
   border-bottom: 1px solid #bbb;
+  text-align: center;
 }
 .Item .update-form input:focus {
   border-bottom: 1px solid #3f3f35;
@@ -782,6 +782,7 @@ select {
 }
 .back-add-div {
   display: flex;
+  justify-content: space-between;
   gap: 45px;
 }
 .ListCard .img {
@@ -945,6 +946,7 @@ select {
   gap: 25px;
   padding: 5px;
 }
+
 .Dashboard h4 {
   color: #1e2f23;
 }

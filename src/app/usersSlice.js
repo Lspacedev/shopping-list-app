@@ -425,9 +425,9 @@ export const usersSlice = createSlice({
         (list) => list.id == action.payload.listID
       );
       let items = [...state.currentUser.lists[listIndex].items];
-
+      console.log(items, action.payload.name);
       if (action.payload.name === "name") {
-        items.sort((a, b) => (a.itemName > b.itemName ? 1 : -1));
+        items.sort((a, b) => a.itemName.localeCompare(b.itemName));
       } else if (action.payload.name === "category") {
         items.sort((a, b) => (a.category > b.category ? 1 : -1));
       } else if (action.payload.name === "default") {

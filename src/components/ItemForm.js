@@ -87,6 +87,7 @@ function ItemForm({ listName, toggleClicked }) {
                 type="text"
                 id="item-name"
                 name="itemName"
+                maxLength="15"
                 onChange={(e) => handleChange(e)}
                 value={obj.itemName}
                 required
@@ -98,9 +99,10 @@ function ItemForm({ listName, toggleClicked }) {
             <label htmlFor="quantity">
               Quantity
               <input
-                type="text"
+                type="number"
                 id="quantity"
                 name="quantity"
+                min="1"
                 onChange={(e) => handleChange(e)}
                 value={obj.quantity}
               />
@@ -111,8 +113,10 @@ function ItemForm({ listName, toggleClicked }) {
             <label htmlFor="category">
               Category
               <input
+                type="text"
                 id="category"
                 name="category"
+                maxLength="15"
                 onChange={(e) => handleChange(e)}
                 value={obj.category}
               />
@@ -126,6 +130,7 @@ function ItemForm({ listName, toggleClicked }) {
                 type="text"
                 id="notes"
                 name="notes"
+                maxLength="25"
                 onChange={(e) => handleChange(e)}
                 value={obj.notes}
               />
